@@ -1,12 +1,20 @@
 // ExampleComponent.js
-import React from "react";
-import { useGetPostsQuery } from "../api/api";
-import api_port from "../../config";
-import AddHotel from "../components/addHotel";
+import React, { useState } from "react";
+import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
+import AddHotel from "@/components/Hotel/AddHotel";
+import AddRoom from "@/components/Hotel/AddRoom";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const adminHotel = () => {
-  const { data: response, error, isLoading } = useGetPostsQuery();
-  const hotels = response?.Hotels || [];
+  const storage = getStorage();
+  const {
+    data: { Hotels: hotels } = {},
+    error,
+    isLoading,
+  } = useGetHotelsQuery();
+  const [rooms, setRooms] = useState("");
+  const [showButton, setShowButton] = useState(false);
+  const [deleteHotels] = useDeleteHotelsMutation();
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -15,9 +23,27 @@ const adminHotel = () => {
     return <p>Error fetching hotels</p>;
   }
 
+  const deleteHotel = async (id, image) => {
+    try {
+      const deletePromises = image.map(async (x) => {
+        const fileRef = ref(storage, x);
+
+        try {
+          await deleteObject(fileRef);
+          console.log(`File ${x} deleted successfully`);
+        } catch (error) {}
+      });
+      await Promise.all(deletePromises);
+      await deleteHotels(id);
+    } catch (error) {
+      console.error(`Error deleting Hotel:`, error);
+    }
+  };
+
   return (
     <div>
-      <AddHotel />
+      {showButton && <AddHotel hotelId={rooms} />}
+      <button onClick={() => setShowButton(true)}>Add More Hotels</button>
       <div>
         <table>
           <thead>
@@ -30,48 +56,59 @@ const adminHotel = () => {
               <td>Facilities</td>
               <td>Rating</td>
               <td>Contact</td>
-              <td colSpan="2">Action</td>
+              <td>Action</td>
             </tr>
           </thead>
           <tbody>
             {hotels &&
-              hotels.map((i) => {
-                return (
-                  <tr key={i._id}>
-                    <td>
-                      <img
-                        src={`${api_port}images/hotels/${i.image}`}
-                        alt={i.name}
-                        height={90}
-                        width={90}
-                      />
-                    </td>
-                    <td>{i.name}</td>
-                    <td>{i.location}</td>
-                    <td>{i.description}</td>
-                    <td>{i.room}</td>
-                    <td>{i.facilities}</td>
-                    <td>{i.rating}</td>
-                    <td>{i.contact}</td>
-                    {/* <td>
-                      <a
-                        onClick={() => update(i._id)}
-                      >
-                        Edit
-                      </a>
-                      <a
-                        onClick={() => remove(i._id)}
-                        className={styles.delbtn}
-                      >
-                        Delete
-                      </a>
-                    </td> */}
-                  </tr>
-                );
-              })}
+              hotels.map(
+                ({
+                  _id,
+                  image,
+                  name,
+                  location,
+                  description,
+                  room,
+                  facilities,
+                  rating,
+                  contact,
+                }) => {
+                  return (
+                    <tr key={_id}>
+                      <td>
+                        <img src={image} alt={name} height={90} width={90} />
+                      </td>
+                      <td>{name}</td>
+                      <td>{location}</td>
+                      <td>{description}</td>
+                      <td>{room}</td>
+                      <td>{facilities}</td>
+                      <td>{rating}</td>
+                      <td>{contact}</td>
+                      <td>
+                        <a onClick={() => setRooms(_id)}>Add Room</a>
+                        <br />
+                        <a onClick={() => deleteHotel(_id, image)}>
+                          Delete Room
+                        </a>
+                        <br />
+                        <a
+                          onClick={() => {
+                            setRooms(_id);
+                            setShowButton(true);
+                          }}
+                        >
+                          Edit Room
+                        </a>
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
           </tbody>
         </table>
       </div>
+      {rooms && <AddRoom hotelId={rooms} />}
     </div>
   );
 };
