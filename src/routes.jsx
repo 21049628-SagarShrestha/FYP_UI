@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 //import routes
 import Index from "./pages/index";
-import Error from "./components/Common/Error";
+import Error from "./components/Common/Error/Error";
 import AdminHotel from "./pages/adminHotel";
 import AdminDestination from "./pages/adminDestination";
 import AdminAdventure from "./pages/adminAdventure";
