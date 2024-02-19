@@ -6,7 +6,7 @@ import Index from "./pages/index";
 import Error from "./components/Common/Error";
 import AdminHotel from "./pages/adminHotel";
 import AdminDestination from "./pages/adminDestination";
-import AdminAdventrue from "./pages/adminAdventrue";
+import AdminAdventure from "./pages/adminAdventure";
 import AdminTransport from "./pages/adminTransport";
 
 //import user routes
@@ -23,7 +23,7 @@ export const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="adminHotel" element={<AdminHotel />} />
     <Route path="adminDestination" element={<AdminDestination />} />
-    <Route path="adminAdventure" element={<AdminAdventrue />} />
+    <Route path="adminAdventure" element={<AdminAdventure />} />
     <Route path="adminTransport" element={<AdminTransport />} />
     <Route path="adventure" element={<Adventure />} />
     <Route path="destination" element={<Destination />} />
