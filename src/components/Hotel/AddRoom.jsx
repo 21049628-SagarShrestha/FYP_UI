@@ -2,13 +2,7 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useAddRoomsMutation } from "@/api/api";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { app } from "../../firebase";
+import { uploadFileToFirebaseStorage } from "../../utils/firebaseStorage";
 
 const AddRoom = ({ hotelId }) => {
   const [addRooms] = useAddRoomsMutation();
@@ -29,42 +23,19 @@ const AddRoom = ({ hotelId }) => {
 
   const submitAlbum = async (data) => {
     try {
-      const storage = getStorage(app);
-      const downloadURLs = [];
       const imagesArray = Array.isArray(data.roomImage)
         ? data.roomImage
         : Object.values(data.roomImage);
 
       const uploadPromises = imagesArray.map((image) => {
-        return new Promise(async (resolve) => {
-          const storageRef = ref(storage, `roomImages/${image.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, image);
-
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`Upload is ${progress}% done`);
-            },
-            (error) => {
-              console.log("Error uploading image:", error);
-              resolve(null); // Resolve the promise even if an error occurs
-            },
-            async () => {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              downloadURLs.push(downloadURL);
-              resolve(downloadURL); // Resolve the promise with the download URL
-            }
-          );
-        });
+        const folder = "roomImages";
+        return uploadFileToFirebaseStorage(image, folder);
       });
 
       const resolvedDownloadURLs = await Promise.all(uploadPromises);
 
       //Filter out null values (failed Uploads)
       const successulURLs = resolvedDownloadURLs.filter((url) => url !== null);
-      console.log("urs", successulURLs);
       const formData = new FormData();
       formData.append("roomNumber", data.roomNumber);
       formData.append("roomType", data.roomType);

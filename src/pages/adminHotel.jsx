@@ -25,7 +25,7 @@ const adminHotel = () => {
 
   const deleteHotel = async (id, image) => {
     try {
-      const deletePromises = image.map(async (x) => {
+      const deletePromises = image.map(async (x) => {   
         const fileRef = ref(storage, x);
 
         try {
@@ -89,7 +89,7 @@ const adminHotel = () => {
                         <a onClick={() => setRooms(_id)}>Add Room</a>
                         <br />
                         <a onClick={() => deleteHotel(_id, image)}>
-                          Delete Room
+                          Delete Hotel
                         </a>
                         <br />
                         <a
@@ -98,7 +98,7 @@ const adminHotel = () => {
                             setShowButton(true);
                           }}
                         >
-                          Edit Room
+                          Edit Hotel
                         </a>
                       </td>
                     </tr>

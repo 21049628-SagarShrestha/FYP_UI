@@ -2,13 +2,8 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useAddHotelsMutation, useUpdateHotelsMutation } from "@/api/api";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { app } from "../../firebase";
+import { handleImagePreviews } from "@/utils/ImageUtils";
+import { uploadFileToFirebaseStorage } from "../../utils/firebaseStorage";
 
 const AddHotel = ({ hotelId }) => {
   const [addHotels] = useAddHotelsMutation();
@@ -30,36 +25,13 @@ const AddHotel = ({ hotelId }) => {
 
   const submitAlbum = async (data) => {
     try {
-      const storage = getStorage(app);
-      const downloadURLs = [];
       const imagesArray = Array.isArray(data.hotelImage)
         ? data.hotelImage
         : Object.values(data.hotelImage);
 
-      const uploadPromises = imagesArray.map((image) => {
-        return new Promise(async (resolve) => {
-          const filename = new Date().getTime() + image.name;
-          const storageRef = ref(storage, `hotelImages/${filename}`);
-          const uploadTask = uploadBytesResumable(storageRef, image);
-
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`Upload is ${progress}% done`);
-            },
-            (error) => {
-              console.log("Error uploading image:", error);
-              resolve(null); // Resolve the promise even if an error occurs
-            },
-            async () => {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              downloadURLs.push(downloadURL);
-              resolve(downloadURL); // Resolve the promise with the download URL
-            }
-          );
-        });
+      const uploadPromises = imagesArray.map(async (image) => {
+        const folder = "hotelImages";
+        return uploadFileToFirebaseStorage(image, folder);
       });
 
       const resolvedDownloadURLs = await Promise.all(uploadPromises);
@@ -81,6 +53,7 @@ const AddHotel = ({ hotelId }) => {
       successulURLs.forEach((url, index) => {
         formData.append(`image[${index}]`, url);
       });
+
       if (hotelId) {
         await updateHotels({ id: hotelId, updateHotel: formData }).unwrap();
       } else {
@@ -95,18 +68,7 @@ const AddHotel = ({ hotelId }) => {
 
   const handleImagePreview = (e) => {
     const files = e.target.files;
-    const previews = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        previews.push(event.target.result);
-        if (previews.length === files.length) {
-          setImagePreviews(previews);
-        }
-      };
-      reader.readAsDataURL(files[i]);
-    }
+    handleImagePreviews(files, setImagePreviews);
   };
 
   return (
