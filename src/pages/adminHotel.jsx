@@ -3,17 +3,18 @@ import React, { useState } from "react";
 import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
 import AddHotel from "@/components/Hotel/AddHotel";
 import AddRoom from "@/components/Hotel/AddRoom";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import { deleteFile } from "../utils/firebaseStorage";
 
 const adminHotel = () => {
-  const storage = getStorage();
   const {
     data: { Hotels: hotels } = {},
     error,
     isLoading,
   } = useGetHotelsQuery();
   const [rooms, setRooms] = useState("");
+  const [images, setImages] = useState("");
   const [showButton, setShowButton] = useState(false);
+  const [showViewButton, setShowViewButton] = useState(false);
   const [deleteHotels] = useDeleteHotelsMutation();
   if (isLoading) {
     return <p>Loading...</p>;
@@ -25,14 +26,10 @@ const adminHotel = () => {
 
   const deleteHotel = async (id, image) => {
     try {
-      const deletePromises = image.map(async (x) => {   
-        const fileRef = ref(storage, x);
-
-        try {
-          await deleteObject(fileRef);
-          console.log(`File ${x} deleted successfully`);
-        } catch (error) {}
+      const deletePromises = image.map(async (x) => {
+        return deleteFile(x);
       });
+      console.log(deletePromises, "Pro");
       await Promise.all(deletePromises);
       await deleteHotels(id);
     } catch (error) {
@@ -42,7 +39,7 @@ const adminHotel = () => {
 
   return (
     <div>
-      {showButton && <AddHotel hotelId={rooms} />}
+      {showButton && <AddHotel hotelId={rooms} image={images} />}
       <button onClick={() => setShowButton(true)}>Add More Hotels</button>
       <div>
         <table>
@@ -86,7 +83,15 @@ const adminHotel = () => {
                       <td>{rating}</td>
                       <td>{contact}</td>
                       <td>
-                        <a onClick={() => setRooms(_id)}>Add Room</a>
+                        <a
+                          onClick={() => {
+                            setShowViewButton(true);
+                            setRooms(_id);
+                            setImages(image);
+                          }}
+                        >
+                          Add Room
+                        </a>
                         <br />
                         <a onClick={() => deleteHotel(_id, image)}>
                           Delete Hotel
@@ -95,6 +100,7 @@ const adminHotel = () => {
                         <a
                           onClick={() => {
                             setRooms(_id);
+                            setImages(image);
                             setShowButton(true);
                           }}
                         >
@@ -108,7 +114,7 @@ const adminHotel = () => {
           </tbody>
         </table>
       </div>
-      {rooms && <AddRoom hotelId={rooms} />}
+      {showViewButton && <AddRoom hotelId={rooms} />}
     </div>
   );
 };

@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useAddHotelsMutation, useUpdateHotelsMutation } from "@/api/api";
 import { handleImagePreviews } from "@/utils/ImageUtils";
-import { uploadFileToFirebaseStorage } from "../../utils/firebaseStorage";
+import {
+  deleteFile,
+  uploadFileToFirebaseStorage,
+} from "@/utils/firebaseStorage";
 
-const AddHotel = ({ hotelId }) => {
+const AddHotel = ({ hotelId, image }) => {
   const [addHotels] = useAddHotelsMutation();
   const [updateHotels] = useUpdateHotelsMutation();
   const {
@@ -55,6 +58,11 @@ const AddHotel = ({ hotelId }) => {
       });
 
       if (hotelId) {
+        const deletePromises = image.map(async (x) => {
+          return deleteFile(x);
+        });
+        console.log(deletePromises, "Pro");
+        await Promise.all(deletePromises);
         await updateHotels({ id: hotelId, updateHotel: formData }).unwrap();
       } else {
         await addHotels(formData).unwrap();

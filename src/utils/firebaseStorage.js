@@ -4,6 +4,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 import { app } from "@/firebase";
 
@@ -31,4 +32,15 @@ export const uploadFileToFirebaseStorage = async (file, folder) => {
       }
     );
   });
+};
+
+export const deleteFile = async (filePath) => {
+  const storage = getStorage(app);
+  const fileRef = ref(storage, filePath);
+  try {
+    await deleteObject(fileRef);
+    console.log(`File ${filePath} deleted successfully`);
+  } catch (error) {
+    console.error(`Error deleting Hotel:`, error);
+  }
 };
