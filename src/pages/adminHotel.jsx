@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
 import AddHotel from "@/components/Hotel/AddHotel";
-import AddRoom from "@/components/Hotel/AddRoom";
 import { deleteFile } from "../utils/firebaseStorage";
+import ViewRoom from "../components/Hotel/VIewRoom";
+import { useTable } from "react-table";
 
 const adminHotel = () => {
   const {
@@ -14,8 +15,9 @@ const adminHotel = () => {
   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
   const [showButton, setShowButton] = useState(false);
-  const [showViewButton, setShowViewButton] = useState(false);
+  const [viewRoom, setViewRoom] = useState(false);
   const [deleteHotels] = useDeleteHotelsMutation();
+  console.log("render", rooms, images, showButton, viewRoom);
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -37,85 +39,115 @@ const adminHotel = () => {
     }
   };
 
+  let data = hotels || [];
+  const columns = [
+    {
+      Header: "Image",
+      accessor: "image",
+      Cell: ({ cell: { value }, row: { original } }) => (
+        <img src={value} alt={original.name} height={90} width={90} />
+      ),
+    },
+    {
+      Header: "Name",
+      access6or: "name",
+    },
+    {
+      Header: "Location",
+      accessor: "location",
+    },
+    {
+      Header: "Description",
+      accessor: "description",
+    },
+    {
+      Header: "Room",
+      accessor: "room",
+    },
+    {
+      Header: "Facilities",
+      accessor: "facilities",
+    },
+    {
+      Header: "Rating",
+      accessor: "rating",
+    },
+    {
+      Header: "Contact",
+      accessor: "contact",
+    },
+    {
+      Header: "Action",
+      accessor: "_id",
+      Cell: ({ cell: { value } }) => (
+        <>
+          <a
+            onClick={() => {
+              setViewRoom(true);
+              setRooms(value);
+            }}
+          >
+            View Room
+          </a>
+          <br />
+          <a onClick={() => deleteHotel(value, images)}>Delete Hotel</a>
+          <br />
+          <a
+            onClick={() => {
+              setRooms(value);
+              setImages(images);
+              setShowButton(true);
+            }}
+          >
+            Edit Hotel
+          </a>
+        </>
+      ),
+    },
+  ];
+
   return (
     <div>
       {showButton && <AddHotel hotelId={rooms} image={images} />}
       <button onClick={() => setShowButton(true)}>Add More Hotels</button>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <td>Image</td>
-              <td>Name</td>
-              <td>Location</td>
-              <td>Description</td>
-              <td>Room</td>
-              <td>Facilities</td>
-              <td>Rating</td>
-              <td>Contact</td>
-              <td>Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            {hotels &&
-              hotels.map(
-                ({
-                  _id,
-                  image,
-                  name,
-                  location,
-                  description,
-                  room,
-                  facilities,
-                  rating,
-                  contact,
-                }) => {
-                  return (
-                    <tr key={_id}>
-                      <td>
-                        <img src={image} alt={name} height={90} width={90} />
-                      </td>
-                      <td>{name}</td>
-                      <td>{location}</td>
-                      <td>{description}</td>
-                      <td>{room}</td>
-                      <td>{facilities}</td>
-                      <td>{rating}</td>
-                      <td>{contact}</td>
-                      <td>
-                        <a
-                          onClick={() => {
-                            setShowViewButton(true);
-                            setRooms(_id);
-                            setImages(image);
-                          }}
-                        >
-                          Add Room
-                        </a>
-                        <br />
-                        <a onClick={() => deleteHotel(_id, image)}>
-                          Delete Hotel
-                        </a>
-                        <br />
-                        <a
-                          onClick={() => {
-                            setRooms(_id);
-                            setImages(image);
-                            setShowButton(true);
-                          }}
-                        >
-                          Edit Hotel
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-          </tbody>
-        </table>
+        <Table columns={columns} data={data} />
       </div>
-      {showViewButton && <AddRoom hotelId={rooms} />}
+      {viewRoom && <ViewRoom hotelId={rooms} />}
     </div>
   );
 };
+
+// Define a separate Table component using react-table
+const Table = ({ columns, data }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
+
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell) => (
+                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
 export default adminHotel;

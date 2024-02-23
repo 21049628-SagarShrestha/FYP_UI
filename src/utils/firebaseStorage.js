@@ -41,6 +41,6 @@ export const deleteFile = async (filePath) => {
     await deleteObject(fileRef);
     console.log(`File ${filePath} deleted successfully`);
   } catch (error) {
-    console.error(`Error deleting Hotel:`, error);
+    console.error(`Error deleting Image:`, error);
   }
 };

@@ -57,6 +57,15 @@ export const api = createApi({
       },
     }),
 
+    deleteRooms: builder.mutation({
+      query(id) {
+        return {
+          url: `deleteRoom/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
+
     updateHotels: builder.mutation({
       query: ({ id, updateHotel }) => ({
         url: `updateHotel/${id}`,
@@ -76,5 +85,6 @@ export const {
   useAddRoomsMutation,
   useAddDestinationsMutation,
   useDeleteHotelsMutation,
+  useDeleteRoomsMutation,
   useUpdateHotelsMutation,
 } = api;

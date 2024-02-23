@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import { useGetRoomsQuery } from "../api/api";
 import Reservation from "../components/Reservation";
 import { set } from "react-hook-form";
