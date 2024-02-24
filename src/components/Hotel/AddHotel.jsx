@@ -61,7 +61,6 @@ const AddHotel = ({ hotelId, image }) => {
         const deletePromises = image.map(async (x) => {
           return deleteFile(x);
         });
-        console.log(deletePromises, "Pro");
         await Promise.all(deletePromises);
         await updateHotels({ id: hotelId, updateHotel: formData }).unwrap();
       } else {

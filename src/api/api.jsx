@@ -73,6 +73,14 @@ export const api = createApi({
         body: updateHotel,
       }),
     }),
+
+    updateRooms: builder.mutation({
+      query: ({ id, updateRoom }) => ({
+        url: `updateRoom/${id}`,
+        method: "PUT",
+        body: updateRoom,
+      }),
+    }),
   }),
 });
 
@@ -87,4 +95,5 @@ export const {
   useDeleteHotelsMutation,
   useDeleteRoomsMutation,
   useUpdateHotelsMutation,
+  useUpdateRoomsMutation,
 } = api;

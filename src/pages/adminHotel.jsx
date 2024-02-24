@@ -31,7 +31,6 @@ const adminHotel = () => {
       const deletePromises = image.map(async (x) => {
         return deleteFile(x);
       });
-      console.log(deletePromises, "Pro");
       await Promise.all(deletePromises);
       await deleteHotels(id);
     } catch (error) {
@@ -79,7 +78,7 @@ const adminHotel = () => {
     {
       Header: "Action",
       accessor: "_id",
-      Cell: ({ cell: { value } }) => (
+      Cell: ({ cell: { value }, row: { original } }) => (
         <>
           <a
             onClick={() => {
@@ -90,12 +89,12 @@ const adminHotel = () => {
             View Room
           </a>
           <br />
-          <a onClick={() => deleteHotel(value, images)}>Delete Hotel</a>
+          <a onClick={() => deleteHotel(value, original.image)}>Delete Hotel</a>
           <br />
           <a
             onClick={() => {
               setRooms(value);
-              setImages(images);
+              setImages(original.image);
               setShowButton(true);
             }}
           >

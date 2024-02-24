@@ -1,11 +1,16 @@
 // ExampleComponent.js
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useAddRoomsMutation } from "@/api/api";
-import { uploadFileToFirebaseStorage } from "../../utils/firebaseStorage";
+import { useAddRoomsMutation, useUpdateRoomsMutation } from "@/api/api";
+import { handleImagePreviews } from "@/utils/ImageUtils";
+import {
+  uploadFileToFirebaseStorage,
+  deleteFile,
+} from "@/utils/firebaseStorage";
 
-const AddRoom = ({ hotelId }) => {
+const AddRoom = ({ hotelId, roomId, image }) => {
   const [addRooms] = useAddRoomsMutation();
+  const [updateRooms] = useUpdateRoomsMutation();
   const {
     register,
     handleSubmit,
@@ -51,32 +56,31 @@ const AddRoom = ({ hotelId }) => {
         formData.append(`image[${index}]`, url);
       });
 
-      await addRooms(formData).unwrap();
+      if (roomId) {
+        const deletePromises = image.map(async (x) => {
+          return deleteFile(x);
+        });
+        await Promise.all(deletePromises);
+        await updateRooms({ id: roomId, updateRoom: formData }).unwrap();
+      } else {
+        await addRooms(formData).unwrap();
+      }
       reset();
+      setImagePreviews([]);
     } catch (error) {
-      console.error("Error adding Rooms:", error);
+      console.error("Error adding/upating Rooms:", error);
     }
   };
 
   const handleImagePreview = (e) => {
     const files = e.target.files;
-    const previews = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        previews.push(event.target.result);
-        if (previews.length === files.length) {
-          setImagePreviews(previews);
-        }
-      };
-      reader.readAsDataURL(files[i]);
-    }
+    handleImagePreviews(files, setImagePreviews);
   };
 
   return (
     <div>
-      <h3>Add new Rooms</h3>
+      <h3>{roomId ? "Edit Room" : "Add new Room"}</h3>
 
       <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
         <input
@@ -191,7 +195,7 @@ const AddRoom = ({ hotelId }) => {
             style={{ width: "100px", height: "100px", marginRight: "10px" }}
           />
         ))}
-        <input type="submit" />
+        <input type="submit" value={roomId ? "Update Room" : "Add Room"} />
       </form>
     </div>
   );

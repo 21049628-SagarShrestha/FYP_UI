@@ -6,11 +6,11 @@ import { deleteFile } from "@/utils/firebaseStorage";
 
 const ViewRoom = ({ hotelId }) => {
   const { data: { Rooms: rooms } = {}, error, isLoading } = useGetRoomsQuery();
-  console.log(rooms, "room");
-  console.log(hotelId, "sss");
   const filteredRooms = rooms?.filter((room) => room.hotelId === hotelId);
   //   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
+  const [roomsId, setRoomsId] = useState("");
+
   const [showButton, setShowButton] = useState(false);
   const [showViewButton, setShowViewButton] = useState(false);
   const [deleteRooms] = useDeleteRoomsMutation();
@@ -27,7 +27,6 @@ const ViewRoom = ({ hotelId }) => {
       const deletePromises = image.map(async (x) => {
         return deleteFile(x);
       });
-      console.log(deletePromises, "Pro");
       await Promise.all(deletePromises);
       await deleteRooms(id);
     } catch (error) {
@@ -37,7 +36,9 @@ const ViewRoom = ({ hotelId }) => {
 
   return (
     <div>
-      {showButton && <AddRoom hotelId={hotelId} />}
+      {showButton && (
+        <AddRoom hotelId={hotelId} roomId={roomsId} image={images} />
+      )}
       <button onClick={() => setShowButton(true)}>Add More Room</button>
       <div>
         {isLoading ? (
@@ -93,12 +94,12 @@ const ViewRoom = ({ hotelId }) => {
                               <br />
                               <a
                                 onClick={() => {
-                                  setRooms(_id);
+                                  setRoomsId(_id);
                                   setImages(image);
                                   setShowButton(true);
                                 }}
                               >
-                                Edit Hotel
+                                Edit Room
                               </a>
                             </td>
                           </tr>
