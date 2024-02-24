@@ -4,7 +4,7 @@ import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
 import AddHotel from "@/components/Hotel/AddHotel";
 import { deleteFile } from "../utils/firebaseStorage";
 import ViewRoom from "../components/Hotel/VIewRoom";
-import { useTable } from "react-table";
+import Table from "../components/Common/Table";
 
 const adminHotel = () => {
   const {
@@ -39,7 +39,7 @@ const adminHotel = () => {
     }
   };
 
-  let data = hotels || [];
+  const data = hotels || [];
   const columns = [
     {
       Header: "Image",
@@ -115,38 +115,6 @@ const adminHotel = () => {
       </div>
       {viewRoom && <ViewRoom hotelId={rooms} />}
     </div>
-  );
-};
-
-// Define a separate Table component using react-table
-const Table = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
-
-  return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => (
-                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-              ))}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
   );
 };
 
