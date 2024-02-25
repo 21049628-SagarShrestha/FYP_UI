@@ -1,12 +1,23 @@
 // ExampleComponent.js
 import React, { useState } from "react";
-import { useGetDestinationsQuery } from "@/api/api";
+import {
+  useGetDestinationsQuery,
+  useDeleteDestinationsMutation,
+} from "@/api/api";
 import AddDestination from "@/components/AddDestination";
+import { deleteFile } from "../utils/firebaseStorage";
+import Table from "../components/Common/Table";
 
 const adminDestination = () => {
-  const { data: response, error, isLoading } = useGetDestinationsQuery();
-  const destinations = response?.destinations || [];
+  const {
+    data: { destinations: destinations } = {},
+    error,
+    isLoading,
+  } = useGetDestinationsQuery();
+  const [deleteDestinations] = useDeleteDestinationsMutation();
   const [showButton, setShowButton] = useState(false);
+  const [destination, setDestination] = useState("");
+  const [images, setImages] = useState("");
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -16,53 +27,80 @@ const adminDestination = () => {
     return <p>Error fetching hotels</p>;
   }
 
+  const deleteDestination = async (id, image) => {
+    try {
+      const deletePromises = image.map(async (x) => {
+        return deleteFile(x);
+      });
+      await Promise.all(deletePromises);
+      await deleteDestinations(id);
+    } catch (error) {
+      console.error(`Error deleting Destination:`, error);
+    }
+  };
+
+  const data = destinations || [];
+  const columns = [
+    {
+      Header: "Image",
+      accessor: "image",
+      Cell: ({ cell: { value }, row: { original } }) => (
+        <img src={value} alt={original.name} height={90} width={90} />
+      ),
+    },
+    {
+      Header: "Name",
+      accessor: "name",
+    },
+    {
+      Header: "Location",
+      accessor: "location",
+    },
+    {
+      Header: "Description",
+      accessor: "description",
+    },
+    {
+      Header: "Rating",
+      accessor: "rating",
+    },
+    {
+      Header: "Places To Visito",
+      accessor: "placesToVisit",
+    },
+    {
+      Header: "Cost",
+      accessor: "cost",
+    },
+    {
+      Header: "Action",
+      accessor: "_id",
+      Cell: ({ cell: { value }, row: { original } }) => (
+        <>
+          <a onClick={() => deleteDestination(value, original.image)}>Delete</a>
+          <br />
+          <a
+            onClick={() => {
+              setDestination(value);
+              setImages(original.image);
+              setShowButton(true);
+            }}
+          >
+            Edit
+          </a>
+        </>
+      ),
+    },
+  ];
   return (
     <div>
       <h1>Destinations</h1>
-      {showButton && <AddDestination />}
+      {showButton && (
+        <AddDestination destinationId={destination} image={images} />
+      )}
       <button onClick={() => setShowButton(true)}> Add More Destination</button>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <td>Image</td>
-              <td>Name</td>
-              <td>Location</td>
-              <td>Description</td>
-              <td>Rating</td>
-              <td>Places TO Visit</td>
-              <td>Cost</td>
-              <td colSpan="2">Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            {destinations &&
-              destinations.map((i) => {
-                return (
-                  <tr key={i._id}>
-                    <td>
-                      <img src={i.image} alt={i.name} height={90} width={90} />
-                    </td>
-                    <td>{i.name}</td>
-                    <td>{i.location}</td>
-                    <td>{i.description}</td>
-                    <td>{i.rating}</td>
-                    <td>{i.placesToVisit}</td>
-                    <td>{i.cost}</td>
-                    {/* <td>
-                      <a onClick={() => setRooms(i._id)}>Add Room</a>
-                        <a
-                        onClick={() => remove(i._id)}
-                        className={styles.delbtn}
-                      >
-                        Delete
-                      </a>
-                    </td> */}
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <Table columns={columns} data={data} />
       </div>
     </div>
   );

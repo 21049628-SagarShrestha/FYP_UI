@@ -10,12 +10,6 @@ export const api = createApi({
     getHotels: builder.query({
       query: () => "fetchHotel",
     }),
-    getDestinations: builder.query({
-      query: () => "fetchDestination",
-    }),
-    getRooms: builder.query({
-      query: () => "fetchRoom",
-    }),
 
     addHotels: builder.mutation({
       query: (addHotel) => ({
@@ -24,27 +18,12 @@ export const api = createApi({
         body: addHotel,
       }),
     }),
-    addDestinations: builder.mutation({
-      query: (addDestination) => ({
-        url: "addDestination",
-        method: "POST",
-        body: addDestination,
-      }),
-    }),
 
-    addRoomReservations: builder.mutation({
-      query: (addRoomReservation) => ({
-        url: "addRoomReservation",
-        method: "POST",
-        body: addRoomReservation,
-      }),
-    }),
-
-    addRooms: builder.mutation({
-      query: (addRoom) => ({
-        url: "addRoom",
-        method: "POST",
-        body: addRoom,
+    updateHotels: builder.mutation({
+      query: ({ id, updateHotel }) => ({
+        url: `updateHotel/${id}`,
+        method: "PUT",
+        body: updateHotel,
       }),
     }),
 
@@ -57,6 +36,18 @@ export const api = createApi({
       },
     }),
 
+    getRooms: builder.query({
+      query: () => "fetchRoom",
+    }),
+
+    addRooms: builder.mutation({
+      query: (addRoom) => ({
+        url: "addRoom",
+        method: "POST",
+        body: addRoom,
+      }),
+    }),
+
     deleteRooms: builder.mutation({
       query(id) {
         return {
@@ -66,19 +57,48 @@ export const api = createApi({
       },
     }),
 
-    updateHotels: builder.mutation({
-      query: ({ id, updateHotel }) => ({
-        url: `updateHotel/${id}`,
-        method: "PUT",
-        body: updateHotel,
-      }),
-    }),
-
     updateRooms: builder.mutation({
       query: ({ id, updateRoom }) => ({
         url: `updateRoom/${id}`,
         method: "PUT",
         body: updateRoom,
+      }),
+    }),
+
+    getDestinations: builder.query({
+      query: () => "fetchDestination",
+    }),
+
+    addDestinations: builder.mutation({
+      query: (addDestination) => ({
+        url: "addDestination",
+        method: "POST",
+        body: addDestination,
+      }),
+    }),
+
+    updateDestinations: builder.mutation({
+      query: ({ id, updateDestination }) => ({
+        url: `updateDestination/${id}`,
+        method: "PUT",
+        body: updateDestination,
+      }),
+    }),
+
+    deleteDestinations: builder.mutation({
+      query(id) {
+        return {
+          url: `deleteDestination/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
+
+    addRoomReservations: builder.mutation({
+      query: (addRoomReservation) => ({
+        url: "addRoomReservation",
+        method: "POST",
+        body: addRoomReservation,
       }),
     }),
   }),
@@ -94,6 +114,8 @@ export const {
   useAddDestinationsMutation,
   useDeleteHotelsMutation,
   useDeleteRoomsMutation,
+  useDeleteDestinationsMutation,
   useUpdateHotelsMutation,
   useUpdateRoomsMutation,
+  useUpdateDestinationsMutation,
 } = api;

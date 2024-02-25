@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
 import AddHotel from "@/components/Hotel/AddHotel";
 import { deleteFile } from "../utils/firebaseStorage";
-import ViewRoom from "../components/Hotel/VIewRoom";
+import ViewRoom from "../components/Hotel/ViewRoom";
 import Table from "../components/Common/Table";
 
 const adminHotel = () => {
@@ -49,7 +49,7 @@ const adminHotel = () => {
     },
     {
       Header: "Name",
-      access6or: "name",
+      accessor: "name",
     },
     {
       Header: "Location",

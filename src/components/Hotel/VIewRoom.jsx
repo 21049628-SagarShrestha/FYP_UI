@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useGetRoomsQuery, useDeleteRoomsMutation } from "@/api/api";
 import AddRoom from "@/components/Hotel/AddRoom";
 import { deleteFile } from "@/utils/firebaseStorage";
+import Table from "../Common/Table";
 
 const ViewRoom = ({ hotelId }) => {
   const { data: { Rooms: rooms } = {}, error, isLoading } = useGetRoomsQuery();
@@ -34,6 +35,55 @@ const ViewRoom = ({ hotelId }) => {
     }
   };
 
+  const columns = [
+    {
+      Header: "Image",
+      accessor: "image",
+      Cell: ({ cell: { value }, row: { original } }) => (
+        <img src={value} alt={original.name} height={90} width={90} />
+      ),
+    },
+    {
+      Header: "Room Number",
+      accessor: "roomNumber",
+    },
+    {
+      Header: "Room Type",
+      accessor: "roomType",
+    },
+    {
+      Header: "Price Per Night",
+      accessor: "pricePerNight",
+    },
+    {
+      Header: "Availability",
+      accessor: "availability",
+    },
+    {
+      Header: "Facilities",
+      accessor: "facilities",
+    },
+    {
+      Header: "Action",
+      accessor: "_id",
+      Cell: ({ cell: { value }, row: { original } }) => (
+        <>
+          <a onClick={() => deleteRoom(value, original.image)}>Delete Room</a>
+          <br />
+          <a
+            onClick={() => {
+              setRoomsId(value);
+              setImages(original.image);
+              setShowButton(true);
+            }}
+          >
+            Edit Room
+          </a>
+        </>
+      ),
+    },
+  ];
+
   return (
     <div>
       {showButton && (
@@ -48,66 +98,7 @@ const ViewRoom = ({ hotelId }) => {
             {filteredRooms.length === 0 ? (
               <p>No Room available for selected hotel</p>
             ) : (
-              <table>
-                <thead>
-                  <tr>
-                    <td>Room Number</td>
-                    <td>Room Type</td>
-                    <td>Price Per Night</td>
-                    <td>Availability</td>
-                    <td>Facilities</td>
-                    <td>Action</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRooms &&
-                    filteredRooms.map(
-                      ({
-                        _id,
-                        image,
-                        roomNumber,
-                        roomType,
-                        pricePerNight,
-                        availability,
-                        facilities,
-                      }) => {
-                        return (
-                          <tr key={_id}>
-                            <td>
-                              <img
-                                src={image}
-                                alt={roomNumber}
-                                height={90}
-                                width={90}
-                              />
-                            </td>
-                            <td>{roomNumber}</td>
-                            <td>{roomType}</td>
-                            <td>{pricePerNight}</td>
-                            <td>{availability}</td>
-                            <td>{facilities}</td>
-
-                            <td>
-                              <a onClick={() => deleteRoom(_id, image)}>
-                                Delete Room
-                              </a>
-                              <br />
-                              <a
-                                onClick={() => {
-                                  setRoomsId(_id);
-                                  setImages(image);
-                                  setShowButton(true);
-                                }}
-                              >
-                                Edit Room
-                              </a>
-                            </td>
-                          </tr>
-                        );
-                      }
-                    )}
-                </tbody>
-              </table>
+              <Table columns={columns} data={filteredRooms} />
             )}
           </div>
         )}

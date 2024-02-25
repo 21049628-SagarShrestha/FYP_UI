@@ -1,17 +1,19 @@
 // ExampleComponent.js
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useAddDestinationsMutation } from "@/api/api";
 import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { app } from "../firebase";
+  useAddDestinationsMutation,
+  useUpdateDestinationsMutation,
+} from "@/api/api";
+import { handleImagePreviews } from "@/utils/ImageUtils";
+import {
+  deleteFile,
+  uploadFileToFirebaseStorage,
+} from "@/utils/firebaseStorage";
 
-const AddHotel = () => {
+const AddDestination = ({ destinationId, image }) => {
   const [addDestinations] = useAddDestinationsMutation();
+  const [updateDestinations] = useUpdateDestinationsMutation();
   const {
     register,
     handleSubmit,
@@ -29,35 +31,13 @@ const AddHotel = () => {
 
   const submitAlbum = async (data) => {
     try {
-      const storage = getStorage(app);
-      const downloadURLs = [];
       const imagesArray = Array.isArray(data.destinationImage)
         ? data.destinationImage
         : Object.values(data.destinationImage);
 
       const uploadPromises = imagesArray.map((image) => {
-        return new Promise(async (resolve) => {
-          const storageRef = ref(storage, `destinationImages/${image.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, image);
-
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`Upload is ${progress}% done`);
-            },
-            (error) => {
-              console.log("Error uploading image:", error);
-              resolve(null); // Resolve the promise even if an error occurs
-            },
-            async () => {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              downloadURLs.push(downloadURL);
-              resolve(downloadURL); // Resolve the promise with the download URL
-            }
-          );
-        });
+        const folder = "destinationImages";
+        return uploadFileToFirebaseStorage(image, folder);
       });
 
       const resolvedDownloadURLs = await Promise.all(uploadPromises);
@@ -70,7 +50,7 @@ const AddHotel = () => {
       formData.append("location", data.location);
       formData.append("description", data.description);
       formData.append("rating", data.rating);
-      formData.append("contact", data.cost);
+      formData.append("cost", data.cost);
       formData.append("weatherInfo", data.weatherInfo);
       formData.append("language", data.language);
 
@@ -82,8 +62,20 @@ const AddHotel = () => {
         formData.append(`image[${index}]`, url);
       });
 
-      await addDestinations(formData).unwrap();
-      //   reset();
+      if (destinationId) {
+        const deletePromises = image.map(async (x) => {
+          return deleteFile(x);
+        });
+        await Promise.all(deletePromises);
+        await updateDestinations({
+          id: destinationId,
+          updateDestination: formData,
+        });
+      } else {
+        await addDestinations(formData).unwrap();
+      }
+      reset();
+      setImagePreviews([]);
     } catch (error) {
       console.error("Error adding hotels:", error);
     }
@@ -91,23 +83,12 @@ const AddHotel = () => {
 
   const handleImagePreview = (e) => {
     const files = e.target.files;
-    const previews = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        previews.push(event.target.result);
-        if (previews.length === files.length) {
-          setImagePreviews(previews);
-        }
-      };
-      reader.readAsDataURL(files[i]);
-    }
+    handleImagePreviews(files, setImagePreviews);
   };
 
   return (
     <div>
-      <h3>Add new Destination</h3>
+      <h3>{destinationId ? "Edit Destination" : "Add new Destination"}</h3>
 
       <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
         <label>Destination Name :</label>
@@ -226,10 +207,13 @@ const AddHotel = () => {
             style={{ width: "100px", height: "100px", marginRight: "10px" }}
           />
         ))}
-        <input type="submit" />
+        <input
+          type="submit"
+          value={destinationId ? "Update Destination " : "Add Destination"}
+        />
       </form>
     </div>
   );
 };
 
-export default AddHotel;
+export default AddDestination;

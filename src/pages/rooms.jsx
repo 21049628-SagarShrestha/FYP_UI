@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import { useGetRoomsQuery } from "../api/api";
-import Reservation from "../components/Reservation";
-import { set } from "react-hook-form";
+import Reservation from "@/components/Hotel/Reservation";
 
 const PriceContext = createContext();
 
