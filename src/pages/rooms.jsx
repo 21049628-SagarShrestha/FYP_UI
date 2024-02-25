@@ -14,7 +14,9 @@ const Rooms = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const hotelIdFromUrl = searchParams.get("hotelId");
 
-  const filteredRooms = rooms.filter((room) => room.hotelId === hotelIdFromUrl);
+  const filteredRooms = rooms.filter(
+    (room) => room.hotelId === hotelIdFromUrl && room.availability === true
+  );
 
   const handleBookRoom = (price, room_num) => {
     setReservation(true);

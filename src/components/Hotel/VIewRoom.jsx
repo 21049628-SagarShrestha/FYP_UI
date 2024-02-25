@@ -7,7 +7,7 @@ import Table from "../Common/Table";
 
 const ViewRoom = ({ hotelId }) => {
   const { data: { Rooms: rooms } = {}, error, isLoading } = useGetRoomsQuery();
-  const filteredRooms = rooms?.filter((room) => room.hotelId === hotelId);
+  const filteredRooms = rooms?.filter((room) => room.hotelId === hotelId && room.availability === true);
   //   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
   const [roomsId, setRoomsId] = useState("");
