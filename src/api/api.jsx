@@ -101,21 +101,54 @@ export const api = createApi({
         body: addRoomReservation,
       }),
     }),
+
+    addAdventure: builder.mutation({
+      query: (addAdventure) => ({
+        url: "addAdventure",
+        method: "POST",
+        body: addAdventure,
+      }),
+    }),
+
+    getAdventure: builder.query({
+      query: () => "fetchAdventure",
+    }),
+
+    updateAdventures: builder.mutation({
+      query: ({ id, updateAdventure }) => ({
+        url: `updateAdventure/${id}`,
+        method: "PUT",
+        body: updateAdventure,
+      }),
+    }),
+
+    deleteAdventures: builder.mutation({
+      query(id) {
+        return {
+          url: `deleteAdventure/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
   }),
 });
 
 export const {
-  useGetHotelsQuery,
-  useGetDestinationsQuery,
-  useGetRoomsQuery,
   useAddHotelsMutation,
-  useAddRoomReservationsMutation,
-  useAddRoomsMutation,
-  useAddDestinationsMutation,
-  useDeleteHotelsMutation,
-  useDeleteRoomsMutation,
-  useDeleteDestinationsMutation,
+  useGetHotelsQuery,
   useUpdateHotelsMutation,
+  useDeleteHotelsMutation,
+  useAddRoomsMutation,
+  useGetRoomsQuery,
   useUpdateRoomsMutation,
+  useDeleteRoomsMutation,
+  useAddDestinationsMutation,
+  useGetDestinationsQuery,
+  useDeleteDestinationsMutation,
   useUpdateDestinationsMutation,
+  useAddAdventureMutation,
+  useGetAdventureQuery,
+  useUpdateAdventuresMutation,
+  useDeleteAdventuresMutation,
+  useAddRoomReservationsMutation,
 } = api;

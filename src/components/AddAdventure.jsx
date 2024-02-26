@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
-  useAddDestinationsMutation,
-  useUpdateDestinationsMutation,
+  useAddAdventureMutation,
+  useUpdateAdventuresMutation,
 } from "@/api/api";
 import { handleImagePreviews } from "@/utils/ImageUtils";
 import {
@@ -11,9 +11,9 @@ import {
   uploadFileToFirebaseStorage,
 } from "@/utils/firebaseStorage";
 
-const AddDestination = ({ destinationId, image }) => {
-  const [addDestinations] = useAddDestinationsMutation();
-  const [updateDestinations] = useUpdateDestinationsMutation();
+const AddAdventure = ({ adventureId, image }) => {
+  const [addAdventures] = useAddAdventureMutation();
+  const [updateAdventures] = useUpdateAdventuresMutation();
   const {
     register,
     handleSubmit,
@@ -31,12 +31,12 @@ const AddDestination = ({ destinationId, image }) => {
 
   const submitAlbum = async (data) => {
     try {
-      const imagesArray = Array.isArray(data.destinationImage)
-        ? data.destinationImage
-        : Object.values(data.destinationImage);
+      const imagesArray = Array.isArray(data.adventureImage)
+        ? data.adventureImage
+        : Object.values(data.adventureImage);
 
       const uploadPromises = imagesArray.map((image) => {
-        const folder = "destinationImages";
+        const folder = "adventureImages";
         return uploadFileToFirebaseStorage(image, folder);
       });
 
@@ -49,35 +49,31 @@ const AddDestination = ({ destinationId, image }) => {
       formData.append("name", data.name);
       formData.append("location", data.location);
       formData.append("description", data.description);
-      formData.append("rating", data.rating);
-      formData.append("cost", data.cost);
-      formData.append("weatherInfo", data.weatherInfo);
-      formData.append("language", data.language);
 
-      data.placesToVisit.forEach((places, index) => {
-        formData.append(`placesToVisit[${index}]`, places);
+      data.adventureType.forEach((places, index) => {
+        formData.append(`adventureType[${index}]`, places);
       });
 
       successulURLs.forEach((url, index) => {
         formData.append(`image[${index}]`, url);
       });
 
-      if (destinationId) {
+      if (adventureId) {
         const deletePromises = image.map(async (x) => {
           return deleteFile(x);
         });
         await Promise.all(deletePromises);
-        await updateDestinations({
-          id: destinationId,
-          updateDestination: formData,
+        await updateAdventures({
+          id: adventureId,
+          updateAdventure: formData,
         });
       } else {
-        await addDestinations(formData).unwrap();
+        await addAdventures(formData).unwrap();
       }
       reset();
       setImagePreviews([]);
     } catch (error) {
-      console.error("Error adding Destination:", error);
+      console.error("Error adding Adventure:", error);
     }
   };
 
@@ -88,10 +84,10 @@ const AddDestination = ({ destinationId, image }) => {
 
   return (
     <div>
-      <h3>{destinationId ? "Edit Destination" : "Add new Destination"}</h3>
+      <h3>{adventureId ? "Edit Adventure" : "Add new Adventure"}</h3>
 
       <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
-        <label>Destination Name :</label>
+        <label>Adventure Name :</label>
         <input
           {...register("name", { required: true })}
           placeholder="name"
@@ -121,56 +117,31 @@ const AddDestination = ({ destinationId, image }) => {
           placeholder="rating"
           type="number"
         />
-        {errors.rating && <p>Rating is required</p>}
 
-        <label>Weather Info :</label>
-        <input
-          {...register("weatherInfo", { required: true })}
-          placeholder="weatherInfo"
-          type="text"
-        />
-        {errors.weatherInfo && <p>weatherInfo is required</p>}
-
-        <label>Language :</label>
-        <input
-          {...register("language", { required: true })}
-          placeholder="language"
-          type="text"
-        />
-        {errors.language && <p>language is required</p>}
-
-        <label>Cost :</label>
-        <input
-          {...register("cost", { required: true })}
-          placeholder="cost"
-          type="number"
-        />
-        {errors.cost && <p>cost is required</p>}
-
-        <label>Famous Places :</label>
+        <label>Adventure Type :</label>
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
-              {...register(`placesToVisit.${index}`, { required: true })}
-              placeholder={`Places To Visit ${index + 1}`}
+              {...register(`adventureType.${index}`, { required: true })}
+              placeholder={`Adventure Type ${index + 1}`}
               type="text"
             />
-            {errors.placesToVisit && errors.placesToVisit[index] && (
-              <p>{errors.placesToVisit[index].message}</p>
+            {errors.adventureType && errors.adventureType[index] && (
+              <p>{errors.adventureType[index].message}</p>
             )}
             <button type="button" onClick={() => remove(index)}>
-              Remove placesToVisit
+              Remove adventureType
             </button>
           </div>
         ))}
 
         <button type="button" onClick={() => append("")}>
-          Add placesToVisit
+          Add adventureType
         </button>
 
         <label>Image :</label>
         <input
-          {...register("destinationImage", {
+          {...register("adventureImage", {
             required: true,
             validate: {
               fileFormat: (value) => {
@@ -191,9 +162,9 @@ const AddDestination = ({ destinationId, image }) => {
           multiple
         />
 
-        {errors.destinationImage && (
+        {errors.adventueImage && (
           <p>
-            {errors.destinationImage.type === "fileFormat"
+            {errors.adventueImage.type === "fileFormat"
               ? "Images are required and must be in the correct format."
               : "Images are required."}
           </p>
@@ -209,11 +180,11 @@ const AddDestination = ({ destinationId, image }) => {
         ))}
         <input
           type="submit"
-          value={destinationId ? "Update Destination " : "Add Destination"}
+          value={adventureId ? "Update Adventure " : "Add Adventure"}
         />
       </form>
     </div>
   );
 };
 
-export default AddDestination;
+export default AddAdventure;
