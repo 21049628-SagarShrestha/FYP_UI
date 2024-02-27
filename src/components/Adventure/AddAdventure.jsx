@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
-  useAddAdventureMutation,
+  useAddAdventuresMutation,
   useUpdateAdventuresMutation,
 } from "@/api/api";
 import { handleImagePreviews } from "@/utils/ImageUtils";
@@ -12,7 +12,7 @@ import {
 } from "@/utils/firebaseStorage";
 
 const AddAdventure = ({ adventureId, image }) => {
-  const [addAdventures] = useAddAdventureMutation();
+  const [addAdventures] = useAddAdventuresMutation();
   const [updateAdventures] = useUpdateAdventuresMutation();
   const {
     register,
@@ -24,7 +24,7 @@ const AddAdventure = ({ adventureId, image }) => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "placesToVisit",
+    name: "adventureType",
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -50,8 +50,9 @@ const AddAdventure = ({ adventureId, image }) => {
       formData.append("location", data.location);
       formData.append("description", data.description);
 
-      data.adventureType.forEach((places, index) => {
-        formData.append(`adventureType[${index}]`, places);
+      data.adventureType.forEach((event, index) => {
+        formData.append(`events[${index}][eventName]`, event.eventName);
+        formData.append(`events[${index}][price]`, event.price);
       });
 
       successulURLs.forEach((url, index) => {
@@ -122,9 +123,20 @@ const AddAdventure = ({ adventureId, image }) => {
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
-              {...register(`adventureType.${index}`, { required: true })}
-              placeholder={`Adventure Type ${index + 1}`}
+              {...register(`adventureType.${index}.eventName`, {
+                required: true,
+              })}
+              placeholder={`Event Name ${index + 1}`}
               type="text"
+            />
+            {errors.adventureType && errors.adventureType[index] && (
+              <p>{errors.adventureType[index].eventName.message}</p>
+            )}
+
+            <input
+              {...register(`adventureType.${index}.price`, { required: true })}
+              placeholder={`Price ${index + 1}`}
+              type="number"
             />
             {errors.adventureType && errors.adventureType[index] && (
               <p>{errors.adventureType[index].message}</p>
@@ -162,7 +174,7 @@ const AddAdventure = ({ adventureId, image }) => {
           multiple
         />
 
-        {errors.adventueImage && (
+        {errors.adventureImage && (
           <p>
             {errors.adventueImage.type === "fileFormat"
               ? "Images are required and must be in the correct format."

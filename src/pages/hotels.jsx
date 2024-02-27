@@ -3,8 +3,11 @@ import { useGetHotelsQuery } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 
 const hotels = () => {
-  const { data: response, error, isLoading } = useGetHotelsQuery();
-  const hotels = response?.Hotels || [];
+  const {
+    data: { Hotels: hotels } = {},
+    error,
+    isLoading,
+  } = useGetHotelsQuery();
   const navigate = useNavigate();
 
   if (isLoading) {

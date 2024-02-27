@@ -102,7 +102,7 @@ export const api = createApi({
       }),
     }),
 
-    addAdventure: builder.mutation({
+    addAdventures: builder.mutation({
       query: (addAdventure) => ({
         url: "addAdventure",
         method: "POST",
@@ -110,7 +110,7 @@ export const api = createApi({
       }),
     }),
 
-    getAdventure: builder.query({
+    getAdventures: builder.query({
       query: () => "fetchAdventure",
     }),
 
@@ -130,6 +130,14 @@ export const api = createApi({
         };
       },
     }),
+
+    addAdventureReservations: builder.mutation({
+      query: (addAdventureReservation) => ({
+        url: "addAdventureReservation",
+        method: "POST",
+        body: addAdventureReservation,
+      }),
+    }),
   }),
 });
 
@@ -146,9 +154,10 @@ export const {
   useGetDestinationsQuery,
   useDeleteDestinationsMutation,
   useUpdateDestinationsMutation,
-  useAddAdventureMutation,
-  useGetAdventureQuery,
+  useAddAdventuresMutation,
+  useGetAdventuresQuery,
   useUpdateAdventuresMutation,
   useDeleteAdventuresMutation,
+  useAddAdventureReservationsMutation,
   useAddRoomReservationsMutation,
 } = api;

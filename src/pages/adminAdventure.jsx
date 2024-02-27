@@ -1,7 +1,7 @@
 // ExampleComponent.js
 import React, { useState } from "react";
-import { useGetAdventureQuery, useDeleteAdventuresMutation } from "@/api/api";
-import AddAdventure from "@/components/AddAdventure";
+import { useGetAdventuresQuery, useDeleteAdventuresMutation } from "@/api/api";
+import AddAdventure from "@/components/Adventure/AddAdventure";
 import { deleteFile } from "@/utils/firebaseStorage";
 import Table from "@/components/Common/Table";
 
@@ -10,7 +10,7 @@ const adminAdventure = () => {
     data: { adventures: adventures } = {},
     error,
     isLoading,
-  } = useGetAdventureQuery();
+  } = useGetAdventuresQuery();
 
   const [adventure, setAdventure] = useState("");
   const [images, setImages] = useState("");
@@ -38,7 +38,7 @@ const adminAdventure = () => {
   };
 
   const data = adventures || [];
-  console.log(data, "dat");
+  console.log(data);
   const columns = [
     {
       Header: "Image",
@@ -60,9 +60,28 @@ const adminAdventure = () => {
       accessor: "description",
     },
     {
-      Header: "Adventure Type",
-      accessor: "adventureType",
+      Header: "Events",
+      accessor: "events",
+      columns: [
+        {
+          Header: "Event Name",
+          accessor: (data) => (
+            <div style={{ whiteSpace: "pre-line" }}>
+              {data.events.map((event) => event.eventName).join("\n")}
+            </div>
+          ),
+        },
+        {
+          Header: "Price",
+          accessor: (data) => (
+            <div style={{ whiteSpace: "pre-line" }}>
+              {data.events.map((event) => event.price).join("\n")}
+            </div>
+          ),
+        },
+      ],
     },
+
     {
       Header: "Action",
       accessor: "_id",
