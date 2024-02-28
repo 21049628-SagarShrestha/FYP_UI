@@ -5,7 +5,7 @@ import AdventureReservation from "@/components/Adventure/AdventureReservation";
 
 const adventure = () => {
   const [reservation, setReservation] = useState("");
-  const [event, setEvent] = useState("");
+  const [events, setEvents] = useState("");
   const {
     data: { adventures: adventures } = {},
     error,
@@ -13,9 +13,9 @@ const adventure = () => {
   } = useGetAdventuresQuery();
   const navigate = useNavigate();
 
-  const bookAdventure = (eventName) => {
+  const bookAdventure = (events) => {
     setReservation(true);
-    setEvent(eventName);
+    setEvents(events);
   };
   if (isLoading) {
     return <p>Loading...</p>;
@@ -41,16 +41,13 @@ const adventure = () => {
                     {name}
                     {location}
                     {description}
-                    {events.map((event, index) => (
-                      <div key={index}>
-                        <div>
-                          <span>Event Name: {event.eventName}</span>
-                          <br />
-                          <span>Price: {event.price}</span>
-                        </div>
-                      </div>
-                    ))}
-                    <button onClick={() => bookAdventure(events.eventName)}>
+                    <div style={{ whiteSpace: "pre-line" }}>
+                      {events.map((event) => event.eventName).join("\n")}
+                    </div>
+                    <div style={{ whiteSpace: "pre-line" }}>
+                      {events.map((event) => event.price).join("\n")}
+                    </div>
+                    <button onClick={() => bookAdventure(events)}>
                       Book Adventure
                     </button>
                   </div>
@@ -58,7 +55,7 @@ const adventure = () => {
               )
             )
           )}
-          {reservation && <AdventureReservation event={event} />}
+          {reservation && <AdventureReservation events={events} />}
         </div>
       )}
     </div>

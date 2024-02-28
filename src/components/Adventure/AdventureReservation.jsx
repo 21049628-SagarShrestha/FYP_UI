@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import ConfirmAdventure from "./ConfirmAdvneture";
+import { useEffect } from "react";
 
-const AdventureReservation = ({ eventName }) => {
-  console.log(eventName);
+const AdventureReservation = ({ events }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [price, setPrice] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -13,6 +15,17 @@ const AdventureReservation = ({ eventName }) => {
   } = useForm();
 
   const submitAlbum = () => setShowConfirmation(true);
+  const selectedEvent = events.find(
+    (event) => event.eventName === watch("event")
+  );
+  console.log(selectedEvent, "evente");
+  useEffect(() => {
+    if (selectedEvent) {
+      setPrice(selectedEvent.price);
+    } else {
+      setPrice("");
+    }
+  }, [selectedEvent]);
   return (
     <div>
       {showConfirmation ? (
@@ -21,11 +34,10 @@ const AdventureReservation = ({ eventName }) => {
           userName={watch("userName")}
           phone={watch("phone")}
           event={watch("event")}
-          price={watch("price")}
+          price={price}
         />
       ) : (
         <div>
-        
           <h3>Make Bookings</h3>
 
           <form onSubmit={handleSubmit(submitAlbum)}>
@@ -45,7 +57,7 @@ const AdventureReservation = ({ eventName }) => {
             <input {...register("phone", { required: true })} type="Number" />
             {errors.phone && <p>phone is required</p>}
 
-            {/* <label>Choose Event: </label>
+            <label>Choose Event: </label>
             <select {...register("event", { required: true })}>
               <option value="" disabled>
                 Select an event
@@ -57,9 +69,22 @@ const AdventureReservation = ({ eventName }) => {
                   </option>
                 ))}
             </select>
-            {errors.event && <p>Event is required</p>} */}
+            {errors.event && <p>Event is required</p>}
 
-            <p>Price: ${watch("price")}</p>
+            {/* <input
+              {...register("price", { required: true })}
+              value={
+                watch("event")
+                  ? events.find((event) => event.eventName === watch("event"))
+                      .price
+                  : ""
+              }
+            /> */}
+            <input
+              type="text"
+              value={price}
+              readOnly // Make the input field read-only
+            />
 
             <input type="submit" />
           </form>

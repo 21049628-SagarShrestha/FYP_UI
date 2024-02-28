@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useAddAdventureReservationsMutation } from "@/api/api";
 
-const ConfirmAdventure = ({ eventDate, userName, phone, event }) => {
+const ConfirmAdventure = ({ eventDate, userName, phone, event, price }) => {
+  console.log(price, "O");
   const [addAdventureReservations] = useAddAdventureReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
   const closePopup = () => {
@@ -15,7 +16,7 @@ const ConfirmAdventure = ({ eventDate, userName, phone, event }) => {
         userName,
         phone,
         event,
-        price: "1500",
+        price,
       };
 
       await addAdventureReservations(formData);
@@ -37,6 +38,7 @@ const ConfirmAdventure = ({ eventDate, userName, phone, event }) => {
               <p>Event Date: {eventDate}</p>
               <p>UserName: {userName}</p>
               <p>Phone: {phone}</p>
+              <p>Price: {price}</p>
               <p>Event: {event}</p>
 
               <button onClick={submitAlbum}>Book</button>
