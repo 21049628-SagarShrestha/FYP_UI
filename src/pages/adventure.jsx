@@ -26,6 +26,7 @@ const adventure = () => {
   }
   return (
     <div>
+      {reservation && <AdventureReservation events={events} />}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -55,7 +56,6 @@ const adventure = () => {
               )
             )
           )}
-          {reservation && <AdventureReservation events={events} />}
         </div>
       )}
     </div>

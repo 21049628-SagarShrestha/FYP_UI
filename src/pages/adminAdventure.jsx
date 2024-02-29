@@ -76,7 +76,7 @@ const adminAdventure = () => {
           accessor: (data) => (
             <div style={{ whiteSpace: "pre-line" }}>
               {data.events.map((event) => event.price).join("\n")}
-            </div>
+            </div> 
           ),
         },
       ],

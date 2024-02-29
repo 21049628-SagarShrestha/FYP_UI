@@ -4,13 +4,17 @@ import { useGetRoomsQuery, useDeleteRoomsMutation } from "@/api/api";
 import AddRoom from "@/components/Hotel/AddRoom";
 import { deleteFile } from "@/utils/firebaseStorage";
 import Table from "../Common/Table";
+import ViewRoomReservation from "./ViewRoomReservation";
 
 const ViewRoom = ({ hotelId }) => {
   const { data: { Rooms: rooms } = {}, error, isLoading } = useGetRoomsQuery();
-  const filteredRooms = rooms?.filter((room) => room.hotelId === hotelId && room.availability === true);
+  const filteredRooms = rooms?.filter(
+    (room) => room.hotelId === hotelId && room.availability === true
+  );
   //   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
   const [roomsId, setRoomsId] = useState("");
+  const [room_num, setRoom_num] = useState("");
 
   const [showButton, setShowButton] = useState(false);
   const [showViewButton, setShowViewButton] = useState(false);
@@ -68,6 +72,15 @@ const ViewRoom = ({ hotelId }) => {
       accessor: "_id",
       Cell: ({ cell: { value }, row: { original } }) => (
         <>
+          <a
+            onClick={() => {
+              setShowViewButton(true);
+              setRoom_num(original.roomNumber);
+            }}
+          >
+            View Reservation
+          </a>
+          <br />
           <a onClick={() => deleteRoom(value, original.image)}>Delete Room</a>
           <br />
           <a
@@ -103,7 +116,7 @@ const ViewRoom = ({ hotelId }) => {
           </div>
         )}
       </div>
-      {showViewButton && <AddRoom hotelId={rooms} />}
+      {showViewButton && <ViewRoomReservation room_num={room_num} />}
     </div>
   );
 };

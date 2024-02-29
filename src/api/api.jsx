@@ -102,6 +102,27 @@ export const api = createApi({
       }),
     }),
 
+    getRoomReservations: builder.query({
+      query: () => "fetchRoomReservation",
+    }),
+
+    updateRoomResevations: builder.mutation({
+      query: ({ id, updateRoomReservation }) => ({
+        url: `updateRoomReservation/${id}`,
+        method: "PUT",
+        body: updateRoomReservation,
+      }),
+    }),
+
+    deleteRoomReservations: builder.mutation({
+      query(id) {
+        return {
+          url: `deleteRoomReservation/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
+
     addAdventures: builder.mutation({
       query: (addAdventure) => ({
         url: "addAdventure",
@@ -160,4 +181,7 @@ export const {
   useDeleteAdventuresMutation,
   useAddAdventureReservationsMutation,
   useAddRoomReservationsMutation,
+  useGetRoomReservationsQuery,
+  useUpdateRoomResevationsMutation,
+  useDeleteRoomReservationsMutation,
 } = api;
