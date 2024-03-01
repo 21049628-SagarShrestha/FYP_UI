@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAddAdventureReservationsMutation } from "@/api/api";
 
 const ConfirmAdventure = ({ eventDate, userName, phone, event, price }) => {
-  console.log(price, "O");
   const [addAdventureReservations] = useAddAdventureReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
   const closePopup = () => {
