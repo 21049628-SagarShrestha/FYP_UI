@@ -159,6 +159,18 @@ export const api = createApi({
         body: addAdventureReservation,
       }),
     }),
+
+    getFlights: builder.query({
+      query: () => "fetchFlight",
+    }),
+
+    addFlightReservations: builder.mutation({
+      query: (addFlightReservation) => ({
+        url: "addFlightReservation",
+        method: "POST",
+        body: addFlightReservation,
+      }),
+    }),
   }),
 });
 
@@ -184,4 +196,6 @@ export const {
   useGetRoomReservationsQuery,
   useUpdateRoomResevationsMutation,
   useDeleteRoomReservationsMutation,
+  useGetFlightsQuery,
+  useAddFlightReservationsMutation,
 } = api;
