@@ -26,7 +26,7 @@ const AddRoom = ({ hotelId, roomId, image }) => {
 
   const [imagePreviews, setImagePreviews] = useState([]);
 
-  const submitAlbum = async (data) => {
+    const submitAlbum = async (data) => {
     try {
       const imagesArray = Array.isArray(data.roomImage)
         ? data.roomImage

@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 
 //import routes
 import Index from "./pages/index";
@@ -20,6 +21,7 @@ import Rooms from "./pages/rooms";
 //set routes to respective pages
 export const AppRoutes = () => (
   <Routes>
+    <Route path="signin" element={<SignIn />} />
     <Route path="/" element={<Index />} />
     <Route path="adminHotel" element={<AdminHotel />} />
     <Route path="adminDestination" element={<AdminDestination />} />
@@ -29,7 +31,6 @@ export const AppRoutes = () => (
     <Route path="destination" element={<Destination />} />
     <Route path="transport" element={<Transport />} />
     <Route path="hotels" element={<Hotels />} />
-    <Route path="signin" element={<SignIn />} />
     <Route path="rooms" element={<Rooms />} />
     <Route path="*" element={<Error />} />
   </Routes>

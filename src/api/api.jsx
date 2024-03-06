@@ -4,7 +4,11 @@ import api_port from "../../config";
 export const api = createApi({
   reducerPath: "api",
   // set baseURL
-  baseQuery: fetchBaseQuery({ baseUrl: `${api_port}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${api_port}`,
+    credentials: "include", // Include credentials (cookies) with the request
+  }),
+
   endpoints: (builder) => ({
     //set all endpoint/routes
     getHotels: builder.query({
@@ -171,6 +175,14 @@ export const api = createApi({
         body: addFlightReservation,
       }),
     }),
+
+    addUsers: builder.mutation({
+      query: (login) => ({
+        url: "login",
+        method: "POST",
+        body: login,
+      }),
+    }),
   }),
 });
 
@@ -198,4 +210,5 @@ export const {
   useDeleteRoomReservationsMutation,
   useGetFlightsQuery,
   useAddFlightReservationsMutation,
+  useAddUsersMutation,
 } = api;
