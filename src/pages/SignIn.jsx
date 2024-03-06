@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { useAddUsersMutation } from "../api/api";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "@/state/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
@@ -15,10 +22,22 @@ const Login = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser, "u");
   const submitAlbum = async (data) => {
     try {
+      dispatch(signInStart());
+
       await addUsers(data).unwrap();
+
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+
       // reset();
 
       // const display = () => {
@@ -28,7 +47,7 @@ const Login = () => {
       // };
       // display();
     } catch (error) {
-      console.error("Error logging user:", error);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -51,12 +70,7 @@ const Login = () => {
             type="password"
           />
           {errors.password && <p>password is required</p>}
-          <input
-            {...register("confirmPassword", { required: true })}
-            placeholder="Confirm Password"
-            type="password"
-          />
-          {errors.confirmPassword && <p>confirmPassword is required</p>}
+
           <input type="submit" value="Login" />
 
           <p>

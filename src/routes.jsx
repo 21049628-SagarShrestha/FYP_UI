@@ -15,23 +15,25 @@ import Adventure from "./pages/adventure";
 import Destination from "./pages/destination";
 import Transport from "./pages/transport";
 import Hotels from "./pages/hotels";
-import SignIn from "./pages/signIn";
 import Rooms from "./pages/rooms";
+import SignIn from "./pages/SignIn";
 
 //set routes to respective pages
 export const AppRoutes = () => (
   <Routes>
     <Route path="signin" element={<SignIn />} />
-    <Route path="/" element={<Index />} />
-    <Route path="adminHotel" element={<AdminHotel />} />
-    <Route path="adminDestination" element={<AdminDestination />} />
-    <Route path="adminAdventure" element={<AdminAdventure />} />
-    <Route path="adminTransport" element={<AdminTransport />} />
-    <Route path="adventure" element={<Adventure />} />
-    <Route path="destination" element={<Destination />} />
-    <Route path="transport" element={<Transport />} />
-    <Route path="hotels" element={<Hotels />} />
-    <Route path="rooms" element={<Rooms />} />
     <Route path="*" element={<Error />} />
+    <Route element={<PrivateRoute />}>
+      <Route path="/" element={<Index />} />
+      <Route path="adminHotel" element={<AdminHotel />} />
+      <Route path="adminDestination" element={<AdminDestination />} />
+      <Route path="adminAdventure" element={<AdminAdventure />} />
+      <Route path="adminTransport" element={<AdminTransport />} />
+      <Route path="adventure" element={<Adventure />} />
+      <Route path="destination" element={<Destination />} />
+      <Route path="transport" element={<Transport />} />
+      <Route path="hotels" element={<Hotels />} />
+      <Route path="rooms" element={<Rooms />} />
+    </Route>
   </Routes>
 );
