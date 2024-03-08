@@ -38,7 +38,7 @@ const Login = () => {
       }
       dispatch(signInSuccess(data));
 
-      // reset();
+      reset();
 
       // const display = () => {
       //   toast("loggedIn", {
