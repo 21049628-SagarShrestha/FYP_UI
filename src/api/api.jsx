@@ -1,12 +1,20 @@
 // api.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import api_port from "../../config";
+
 export const api = createApi({
   reducerPath: "api",
   // set baseURL
   baseQuery: fetchBaseQuery({
     baseUrl: `${api_port}`,
     credentials: "include", // Include credentials (cookies) with the request
+    prepareHeaders: (headers, { getState }) => {
+      const currentUser = getState().user.currentUser;
+      if (currentUser) {
+        headers.set("Email", currentUser.email);
+      }
+      return headers;
+    },
   }),
 
   endpoints: (builder) => ({
