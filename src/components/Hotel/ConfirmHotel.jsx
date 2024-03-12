@@ -46,7 +46,17 @@ const confirmHotel = ({
               <p>Total Number of Days: {totalDays}</p>
               <p>Amount: {amount}</p>
 
-              <button onClick={submitAlbum}>Book</button>
+              <button
+                onClick={submitAlbum}
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                  borderRadius: "5px",
+                }}
+              >
+                Book
+              </button>
               <button>Pay with Khalti</button>
             </div>
           </div>
@@ -77,11 +87,12 @@ const popupContentStyles = {
 
 const closeButtonStyles = {
   position: "absolute",
-  top: "10px",
-  right: "10px",
+
+  top: "275px",
+  right: "660px",
   cursor: "pointer",
   fontSize: "20px",
-  color: "#888",
+  color: "black",
 };
 
 export default confirmHotel;

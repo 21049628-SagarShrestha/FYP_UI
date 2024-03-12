@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import "@/assets/styles/SignIn.css";
 
 import { useAddUsersMutation } from "../api/api";
 import {
@@ -37,6 +38,7 @@ const Login = () => {
         return;
       }
       dispatch(signInSuccess(data));
+      navigate("/");
 
       reset();
 
@@ -53,31 +55,42 @@ const Login = () => {
 
   return (
     <>
-      <div>
-        <h1>Login</h1>
+      <div className="main-wrapper">
+        <div className="wrapper">
+          <h1 className="font-semibold">Login</h1>
 
-        <form onSubmit={handleSubmit(submitAlbum)}>
-          <input
-            {...register("email", { required: true })}
-            placeholder="Email"
-            type="email"
-            name="email" // Add name attribute
-          />
-          {errors.email && <p>email is required</p>}
-          <input
-            {...register("password", { required: true })}
-            placeholder="Password"
-            type="password"
-          />
-          {errors.password && <p>password is required</p>}
+          <form onSubmit={handleSubmit(submitAlbum)}>
+            <div className=" input-box">
+              <input
+                {...register("email", { required: true })}
+                placeholder="Email"
+                type="email"
+                name="email" // Add name attribute
+              />
+              <FaEnvelope className="icon" />
 
-          <input type="submit" value="Login" />
+              {errors.email && <p>email is required</p>}
+            </div>
+            <div className=" input-box">
+              <input
+                {...register("password", { required: true })}
+                placeholder="Password"
+                type="password"
+              />
+              <FaLock className="icon" />
+              {errors.password && <p>password is required</p>}
+            </div>
 
-          <p>
-            Don't have an account?
-            <a href="/signin"> Register</a>
-          </p>
-        </form>
+            <input className="loginbutton" type="submit" value="Login" />
+
+            <div className="register-link">
+              <p>
+                Don't have an account?
+                <a href="/signin"> Register</a>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
       {/* <ToastContainer /> */}
     </>

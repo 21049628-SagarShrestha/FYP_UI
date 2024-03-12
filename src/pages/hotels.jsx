@@ -39,7 +39,15 @@ const hotels = () => {
                   {i.facilities}
                   {i.rating}
                   {i.contact}
-                  <button onClick={() => navigate(`/rooms?hotelId=${i._id}`)}>
+                  <button
+                    onClick={() => navigate(`/rooms?hotelId=${i._id}`)}
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  >
                     View Rooms
                   </button>
                 </div>

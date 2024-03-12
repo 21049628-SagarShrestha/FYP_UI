@@ -37,41 +37,55 @@ const AdventureReservation = ({ events }) => {
           price={price}
         />
       ) : (
-        <div>
-          <h3>Make Bookings</h3>
+        <div className="border border-black  rounded-lg p-3 max-w-4xl mx-auto my-10">
+          <h3 className="text-center font-extrabold uppercase">Make Bookings</h3>
+          <br/>
 
-          <form onSubmit={handleSubmit(submitAlbum)}>
-            <label>Event Date :</label>
-            <input
-              {...register("eventDate", { required: true })}
-              type="Date"
-              min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
-            />
-            {errors.eventDate && <p>eventDate is required</p>}
+          <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit(submitAlbum)}>
+            <div className="flex flex-col gap-4 flex-1">
+              <label className="font-semibold">Event Date :</label>
+              <input
+                className="border p-3 rounded-lg "
 
-            <label>User name : </label>
-            <input {...register("userName", { required: true })} type="text" />
-            {errors.userName && <p>userName is required</p>}
+                {...register("eventDate", { required: true })}
+                type="Date"
+                min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
+              />
+              {errors.eventDate && <p>eventDate is required</p>}
 
-            <label>Phone : </label>
-            <input {...register("phone", { required: true })} type="Number" />
-            {errors.phone && <p>phone is required</p>}
+              <label className="font-semibold">User name : </label>
+              <input 
+                className="border p-3 rounded-lg "
 
-            <label>Choose Event: </label>
-            <select {...register("event", { required: true })}>
-              <option value="" disabled>
-                Select an event
-              </option>
-              {events &&
-                events.map((event, index) => (
-                  <option key={index} value={event.eventName}>
-                    {event.eventName}
-                  </option>
-                ))}
-            </select>
-            {errors.event && <p>Event is required</p>}
+                {...register("userName", { required: true })}
+                type="text"
+              />
+              {errors.userName && <p>userName is required</p>}
 
-            {/* <input
+              <label className="font-semibold">Phone : </label>
+              <input
+              className="border p-3 rounded-lg "
+               {...register("phone", { required: true })} type="Number" />
+              {errors.phone && <p>phone is required</p>}
+            </div>
+            <div className="flex flex-col flex-1 gap-4">
+              <label className="font-semibold">Choose Event: </label>
+              <select 
+              className="border p-3 rounded-lg "
+              {...register("event", { required: true })}>
+                <option value="" disabled>
+                  Select an event
+                </option>
+                {events &&
+                  events.map((event, index) => (
+                    <option key={index} value={event.eventName}>
+                      {event.eventName}
+                    </option>
+                  ))}
+              </select>
+              {errors.event && <p>Event is required</p>}
+
+              {/* <input
               {...register("price", { required: true })}
               value={
                 watch("event")
@@ -80,13 +94,16 @@ const AdventureReservation = ({ events }) => {
                   : ""
               }
             /> */}
-            <input
-              type="text"
-              value={price}
-              readOnly // Make the input field read-only
-            />
+            <label className="font-semibold">Price: </label>
+              <input
+              className="border p-3 rounded-lg "
+                type="text"
+                value={price}
+                readOnly // Make the input field read-only
+              />
 
-            <input type="submit" />
+              <input className=" p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80" type="submit" />
+            </div>
           </form>
         </div>
       )}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGetFlightsQuery } from "@/api/api";
 import TransportReservation from "../components/Transport/TransportReservation";
 import { useEffect } from "react";
+import "../assets/styles/transport.css";
 
 const Transport = () => {
   const [reservationDetails, setReservationDetails] = useState(null);
@@ -47,19 +48,10 @@ const Transport = () => {
   }
 
   return (
-    <div>
+    <div className="flight-container">
       {reservationDetails && <TransportReservation {...reservationDetails} />}
 
-      <div>
-        <label htmlFor="searchDate">Search Flights by Date:</label>
-        <input
-          type="date"
-          id="searchDate"
-          min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
-          value={searchDate}
-          onChange={handleSearchDateChange}
-        />
-      </div>
+      <div>{/* ... Your existing code */}</div>
 
       {filteredFlights.length === 0 ? (
         <p>No flights available for the selected date.</p>
@@ -76,32 +68,45 @@ const Transport = () => {
               flight_time,
               price,
             }) => (
-              <div key={_id}>
-                <div>
-                  {flightDate}
-                  {airline}
-                  {arrival_airport}
-                  {departure_time}
-                  {flight_time}
-                  {price}
-                  {departure_airport}
-
-                  <button
-                    onClick={() =>
-                      bookFlight({
-                        flightDate,
-                        airline,
-                        arrival_airport,
-                        departure_time,
-                        flight_time,
-                        price,
-                        departure_airport,
-                      })
-                    }
-                  >
-                    Book Flight
-                  </button>
+              <div key={_id} className="flight-card">
+                <div className="flight-details">
+                  <div>
+                    <strong>Date:</strong> {flightDate}
+                  </div>
+                  <div>
+                    <strong>Airline:</strong> {airline}
+                  </div>
+                  <div>
+                    <strong>Departure Airport:</strong> {departure_airport}
+                  </div>
+                  <div>
+                    <strong>Arrival Airport:</strong> {arrival_airport}
+                  </div>
+                  <div>
+                    <strong>Departure Time:</strong> {departure_time}
+                  </div>
+                  <div>
+                    <strong>Flight Time:</strong> {flight_time}
+                  </div>
+                  <div>
+                    <strong>Price:</strong> {price}
+                  </div>
                 </div>
+                <button
+                  onClick={() =>
+                    bookFlight({
+                      flightDate,
+                      airline,
+                      arrival_airport,
+                      departure_time,
+                      flight_time,
+                      price,
+                      departure_airport,
+                    })
+                  }
+                >
+                  Book Flight
+                </button>
               </div>
             )
           )}

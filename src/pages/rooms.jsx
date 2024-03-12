@@ -46,6 +46,12 @@ const Rooms = () => {
                     onClick={() =>
                       handleBookRoom(x.pricePerNight, x.roomNumber)
                     }
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
                   >
                     Book Room
                   </button>

@@ -1,6 +1,6 @@
-.d-main{
+.a-main{
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
     list-style: none;
     align-items: center;
@@ -10,10 +10,13 @@
     
 }
 
-.d-inner{
+
+
+
+.a-inner{
    
     height: 450px;
-    width: 95%;
+    width: 130%;
     background-color: white;
     
     display: flex;
@@ -25,8 +28,8 @@
             
     }
 
-.d-first{
-    height: 410px;
+.a-first{
+    height: 420px;
     width: 60%;
     padding: 2px;
     display: grid;
@@ -36,16 +39,16 @@
     
 }
 
-.d-first img{
+.a-first img{
     object-fit:fill;
-    height: 405px;
+    height: 350px;
     width: 100%;
     float: left;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 
 }
-.d-second{
+.a-second{
     margin-left: 25px;
     height: 425px;
     width: 45%;
@@ -56,17 +59,3 @@
    
     
 }
-
-
-.places{
-   
-    font-size: medium;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    padding: 20px;
-    
-    
-    }
-
-
