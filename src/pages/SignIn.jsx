@@ -65,7 +65,7 @@ const Login = () => {
                 {...register("email", { required: true })}
                 placeholder="Email"
                 type="email"
-                name="email" // Add name attribute
+                name="email"
               />
               <FaEnvelope className="icon" />
 
@@ -80,13 +80,18 @@ const Login = () => {
               <FaLock className="icon" />
               {errors.password && <p>password is required</p>}
             </div>
+            <div className="register-link">
+              <p>
+                <a href="/forgotPassword">Forgot Password ?</a>
+              </p>
+            </div>
 
             <input className="loginbutton" type="submit" value="Login" />
 
             <div className="register-link">
               <p>
                 Don't have an account?
-                <a href="/signin"> Register</a>
+                <a href="/register">Register</a>
               </p>
             </div>
           </form>
