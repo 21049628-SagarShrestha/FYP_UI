@@ -1,72 +1,57 @@
-.d-main{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 20px;
-    list-style: none;
-    align-items: center;
-    justify-items: center;
-    padding: 20px;
-    margin-top: 150px;
-    
+.d-main {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 20px;
+  list-style: none;
+  align-items: center;
+  justify-items: center;
+  padding: 20px;
+  margin-top: 150px;
 }
 
-.d-inner{
-   
-    height: 450px;
-    width: 95%;
-    background-color: white;
-    
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
-    border-radius: 10px;
-    justify-content: space-between;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-            
-    }
+.d-inner {
+  height: 450px;
+  width: 95%;
+  background-color: white;
 
-.d-first{
-    height: 410px;
-    width: 60%;
-    padding: 2px;
-    display: grid;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-   
-    
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  border-radius: 10px;
+  justify-content: space-between;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
-.d-first img{
-    object-fit:fill;
-    height: 405px;
-    width: 100%;
-    float: left;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-
-}
-.d-second{
-    margin-left: 25px;
-    height: 425px;
-    width: 45%;
-    border-radius: 10px;
-    font-size: large;
-    padding-left: 30px;
-    
-   
-    
+.d-first {
+  height: 410px;
+  width: 60%;
+  padding: 2px;
+  display: grid;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
+.d-first img {
+  object-fit: fill;
+  height: 405px;
+  width: 100%;
+  float: left;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+.d-second {
+  margin-left: 25px;
+  height: 425px;
+  width: 45%;
+  border-radius: 10px;
+  font-size: large;
+  padding-left: 30px;
+}
 
-.places{
-   
-    font-size: medium;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    padding: 20px;
-    
-    
-    }
-
-
+.places {
+  font-size: medium;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 20px;
+}

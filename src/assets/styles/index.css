@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    margin-top: 120px;
+body {
+  margin-top: 120px;
+  background: url("../images/bg.jpg");
 }
