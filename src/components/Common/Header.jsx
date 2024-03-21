@@ -4,11 +4,6 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  signOutUserFailure,
-  signOutUserStart,
-  signOutUserSuccess,
-} from "../../state/slices/userSlice";
 
 import "./Header.css";
 
@@ -18,24 +13,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleSignOut = async () => {
-    try {
-      dispatch(signOutUserStart());
-
-      const response = await fetch(`http://localhost:8081/signout`, {
-        method: "GET",
-        credentials: "include", // Include credentials (cookies) with the request
-      });
-      const data = await response.json();
-      if (data.success === false) {
-        dispatch(signOutUserFailure(data.message));
-        return;
-      }
-      dispatch(signOutUserSuccess());
-    } catch (error) {
-      dispatch(signOutUserFailure());
-    }
-  };
+ 
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -138,18 +116,17 @@ export default function Header() {
         </ul>
 
         <div className="corner-menu">
-          <Link to="/signin">
-            <FaUser />
-          </Link>
-
-          {currentUser && (
-            <span
-              onClick={handleSignOut}
-              className="text-red-700 cursor-pointer"
-            >
-              Sign out
-            </span>
+          {currentUser ? (
+            <Link to="/profile">
+              <FaUser />
+            </Link>
+          ) : (
+            <Link to="/signin">
+              <FaUser />
+            </Link>
           )}
+
+         
         </div>
       </nav>
     </>
