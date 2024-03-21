@@ -3,6 +3,7 @@ import { api } from "../api/api";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import paymentReducer from "./slices/paymentSlice";
 
 const persistConfig = {
   key: "root",
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: persistReducer(persistConfig, userReducer),
+  payment: persistReducer(persistConfig, paymentReducer),
   [api.reducerPath]: api.reducer,
 });
 
