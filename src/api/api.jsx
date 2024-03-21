@@ -1,6 +1,6 @@
 // api.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import api_port from "../../config";
+import { api_port } from "../../config";
 
 export const api = createApi({
   reducerPath: "api",
@@ -17,7 +17,16 @@ export const api = createApi({
     },
   }),
 
+  //payment with khalti route
   endpoints: (builder) => ({
+    verifyPayments: builder.mutation({
+      query: (verifyPayment) => ({
+        url: "khalti-api",
+        method: "POST",
+        body: verifyPayment,
+      }),
+    }),
+
     //set all endpoint/routes
     getHotels: builder.query({
       query: () => "fetchHotel",
@@ -191,6 +200,40 @@ export const api = createApi({
         body: login,
       }),
     }),
+
+    getUsers: builder.query({
+      query: () => "fetchUser",
+    }),
+
+    changePasswords: builder.mutation({
+      query: (changePassword) => ({
+        url: "changePassword",
+        method: "POST",
+        body: changePassword,
+      }),
+    }),
+
+    registerUsers: builder.mutation({
+      query: (registerUser) => ({
+        url: "signup",
+        method: "POST",
+        body: registerUser,
+      }),
+    }),
+    passwordResets: builder.mutation({
+      query: (passwordReset) => ({
+        url: "passwordReset",
+        method: "POST",
+        body: passwordReset,
+      }),
+    }),
+    resetPasswords: builder.mutation({
+      query: (resetPassword) => ({
+        url: "resetPassword",
+        method: "POST",
+        body: resetPassword,
+      }),
+    }),
   }),
 });
 
@@ -219,4 +262,10 @@ export const {
   useGetFlightsQuery,
   useAddFlightReservationsMutation,
   useAddUsersMutation,
+  useGetUsersQuery,
+  useChangePasswordsMutation,
+  useRegisterUsersMutation,
+  usePasswordResetsMutation,
+  useResetPasswordsMutation,
+  useVerifyPaymentsMutation,
 } = api;
