@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 import { useAddRoomReservationsMutation } from "@/api/api";
+import Khalti from "../Khalti/Khalti";
+import { useSelector, useDispatch } from "react-redux";
 
-const confirmHotel = ({
+const ConfirmHotel = ({
   checkInDate,
   checkOutDate,
   totalDays,
   price,
   room_num,
 }) => {
+  const dispatch = useDispatch();
   const [addRoomReservations] = useAddRoomReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
+  const [khaltiVisible, setKhaltiVisible] = useState(false); // State to manage Khalti visibility
   const amount = price * totalDays;
+
   const closePopup = () => {
     setShowPopup(false);
   };
 
-  const submitAlbum = async () => {
+  const handleKhaltiClick = () => {
+    setKhaltiVisible(true); // Set Khalti visibility
+  };
+
+  const handleConfirmBooking = async () => {
     try {
       const formData = {
         room: room_num,
@@ -47,7 +56,7 @@ const confirmHotel = ({
               <p>Amount: {amount}</p>
 
               <button
-                onClick={submitAlbum}
+                onClick={handleKhaltiClick}
                 style={{
                   backgroundColor: "black",
                   color: "white",
@@ -55,13 +64,13 @@ const confirmHotel = ({
                   borderRadius: "5px",
                 }}
               >
-                Book
+                Pay with Khalti
               </button>
-              <button>Pay with Khalti</button>
             </div>
           </div>
         </div>
       )}
+      {khaltiVisible && <Khalti />}
     </div>
   );
 };
@@ -87,7 +96,6 @@ const popupContentStyles = {
 
 const closeButtonStyles = {
   position: "absolute",
-
   top: "275px",
   right: "660px",
   cursor: "pointer",
@@ -95,4 +103,4 @@ const closeButtonStyles = {
   color: "black",
 };
 
-export default confirmHotel;
+export default ConfirmHotel;
