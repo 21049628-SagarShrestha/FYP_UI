@@ -17,12 +17,20 @@ import Transport from "./pages/transport";
 import Hotels from "./pages/hotels";
 import Rooms from "./pages/rooms";
 import SignIn from "./pages/SignIn";
+import Profile from "./pages/profile";
+import ChangePassword from "./components/ChangePassword";
+import Register from "./pages/register";
+import ForgotPassword from "./pages/forgotPassword";
+import ResetForm from "./components/ResetForm";
 
 //set routes to respective pages
 export const AppRoutes = () => (
   <Routes>
     <Route path="signin" element={<SignIn />} />
     <Route path="*" element={<Error />} />
+    <Route path="/register" element={<Register />} />
+    <Route path="/resetForm" element={<ResetForm />} />
+    <Route path="/forgotPassword" element={<ForgotPassword />} />
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<Index />} />
       <Route path="adminHotel" element={<AdminHotel />} />
@@ -34,6 +42,8 @@ export const AppRoutes = () => (
       <Route path="transport" element={<Transport />} />
       <Route path="hotels" element={<Hotels />} />
       <Route path="rooms" element={<Rooms />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="changePassword" element={<ChangePassword />} />
     </Route>
   </Routes>
 );
