@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import "@/assets/styles/register.css";
 
 import { useRegisterUsersMutation } from "../api/api";
+import Terms from "../components/Terms";
 
 const Register = () => {
   const [registerUsers] = useRegisterUsersMutation();
@@ -77,6 +78,19 @@ const Register = () => {
               {errors.password && <p>password is required</p>}
             </div>
 
+            <div className="register-link">
+              <label className="flex justify-start ml-2 mb-2">
+                <input
+                  {...register("agreed", { required: true })}
+                  type="checkbox"
+                  className="mr-2 "
+                />
+                <p>
+                  I agree the terms and conditions. <a href="/terms"> Terms</a>
+                </p>
+              </label>
+              {errors.availability && <p>Availability is required</p>}
+            </div>
             <input className="loginbutton" type="submit" value="Register" />
 
             <div className="register-link">
