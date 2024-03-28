@@ -36,7 +36,7 @@ export const AppRoutes = () => (
     <Route path="/terms" element={<Terms />} />
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<Index />} />
-      <Route path="khalti-success" element={<Success />} />
+      <Route path="khaltiSuccess" element={<Success />} />
       <Route path="adminHotel" element={<AdminHotel />} />
       <Route path="adminDestination" element={<AdminDestination />} />
       <Route path="adminAdventure" element={<AdminAdventure />} />

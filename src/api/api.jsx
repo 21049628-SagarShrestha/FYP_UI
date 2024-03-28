@@ -4,6 +4,7 @@ import { api_port } from "../../config";
 
 export const api = createApi({
   reducerPath: "api",
+
   // set baseURL
   baseQuery: fetchBaseQuery({
     baseUrl: `${api_port}`,
@@ -17,13 +18,20 @@ export const api = createApi({
     },
   }),
 
-  //payment with khalti route
   endpoints: (builder) => ({
+    //payment with khalti route
     verifyPayments: builder.mutation({
       query: (verifyPayment) => ({
-        url: "khalti-api",
+        url: "khaltiApi",
         method: "POST",
         body: verifyPayment,
+      }),
+    }),
+    verifySuccesses: builder.mutation({
+      query: (verifySuccess) => ({
+        url: "khaltiSuccess",
+        method: "POST",
+        body: verifySuccess,
       }),
     }),
 
@@ -268,4 +276,5 @@ export const {
   usePasswordResetsMutation,
   useResetPasswordsMutation,
   useVerifyPaymentsMutation,
+  useVerifySuccessesMutation,
 } = api;
