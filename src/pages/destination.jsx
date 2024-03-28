@@ -49,6 +49,12 @@ const hotels = () => {
                 <p>
                   <b>Description: </b> {i.description}
                 </p>
+                <p>
+                  <b>Language: </b> {i.language}
+                </p>
+                <p>
+                  <b>Weather Info: </b> {i.weatherInfo}
+                </p>
               </div>
             </div>
           );

@@ -13,7 +13,7 @@ const Rooms = () => {
 
   const searchParams = new URLSearchParams(window.location.search);
   const hotelIdFromUrl = searchParams.get("hotelId");
-
+  const hotelLocation = searchParams.get("location");
   const filteredRooms = rooms.filter(
     (room) => room.hotelId === hotelIdFromUrl && room.availability === true
   );
@@ -25,33 +25,53 @@ const Rooms = () => {
   };
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="d-main">
+          {reservation && (
+            <Reservation
+              price={prices}
+              room_num={room}
+              location={hotelLocation}
+            />
+          )}
           {filteredRooms.length === 0 ? (
             <p>No rooms available for the selected hotel.</p>
           ) : (
             filteredRooms.map((x) => (
-              <div key={x._id}>
-                <img src={x.image} alt={x.roomNumber} height={90} width={90} />
-                <div>
-                  {x.roomNumber}
-                  {x.roomType}
-                  {x.pricePerNight}
+              <div key={x._id} className="d-inner">
+                <div className="d-first">
+                  <img src={x.image} alt={x.roomNumber} />
+                </div>
+                <div className="d-second">
+                  <h3 className="text-xl font-bold text-center">
+                    {x.roomType}
+                  </h3>
+                  <br />
+                  <p>
+                    <b>RoomNumber: </b>
+                    {x.roomNumber}
+                  </p>
+                  <p>
+                    <b>Price/Night: </b>
+                    {x.pricePerNight}
+                  </p>
+
                   {x.availability}
-                  {x.facilities}
+
+                  <p>
+                    <b>Facilities: </b>
+                    {x.facilities}
+                  </p>
+                  <br />
+
                   <button
+                    className=" bg-black text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
                     onClick={() =>
                       handleBookRoom(x.pricePerNight, x.roomNumber)
                     }
-                    style={{
-                      backgroundColor: "black",
-                      color: "white",
-                      padding: "5px",
-                      borderRadius: "5px",
-                    }}
                   >
                     Book Room
                   </button>
@@ -59,10 +79,9 @@ const Rooms = () => {
               </div>
             ))
           )}
-          {reservation && <Reservation price={prices} room_num={room} />}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
