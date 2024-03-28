@@ -97,8 +97,8 @@
 }
 
 .user-container > div:last-child > button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: white;
+  color: black;
   border: none;
   padding: 8px 16px;
   border-radius: 5px;
@@ -108,8 +108,8 @@
 }
 
 .user-container > div:last-child > span {
-  background-color: #007bff;
-  color: #fff;
+  background-color: white;
+  color: black;
   border: none;
   padding: 8px 30px;
   border-radius: 5px;

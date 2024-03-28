@@ -116,7 +116,9 @@ const ViewRoom = ({ hotelId }) => {
           </div>
         )}
       </div>
-      {showViewButton && <ViewRoomReservation room_num={room_num} />}
+      {showViewButton && (
+        <ViewRoomReservation room_num={room_num} hotelId={hotelId} />
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ConfirmHotel from "./ConfirmHotel";
 
-const Reservation = ({ price, room_num }) => {
+const Reservation = ({ price, room_num, location }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [totalDays, setTotalDays] = useState(0);
   const {
@@ -27,7 +27,7 @@ const Reservation = ({ price, room_num }) => {
   };
   const submitAlbum = () => setShowConfirmation(true);
   return (
-    <div>
+    <>
       {showConfirmation ? (
         <ConfirmHotel
           checkInDate={watch("checkInDate")}
@@ -35,37 +35,54 @@ const Reservation = ({ price, room_num }) => {
           totalDays={totalDays}
           price={price}
           room_num={room_num}
+          location={location}
         />
       ) : (
-        <div>
-          <h3>Make Bookings</h3>
+        <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
+          <h3 className="text-xl font-bold text-center">Make Bookings</h3>
 
-          <form onSubmit={handleSubmit(submitAlbum)}>
-            <label>CheckInDate</label>
-            <input
-              {...register("checkInDate", { required: true })}
-              type="Date"
-              min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
-              onBlur={calculateTotalDays}
-            />
-            {errors.checkInDate && <p>checkInDate is required</p>}
+          <p className="text-l font-semibold text-center">
+            Total Number of Days {totalDays}
+          </p>
+          <br />
+          <form
+            className="flex flex-col sm:flex-row gap-4"
+            onSubmit={handleSubmit(submitAlbum)}
+          >
+            <div className="flex flex-col gap-4 flex-1">
+              <label className="font-semibold">CheckInDate</label>
+              <input
+                className="border p-3 rounded-lg "
+                {...register("checkInDate", { required: true })}
+                type="Date"
+                min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
+                onBlur={calculateTotalDays}
+              />
+              {errors.checkInDate && <p>checkInDate is required</p>}
+            </div>
+            <div className="flex flex-col flex-1 gap-4">
+              <label className="font-semibold">CheckOutDate</label>
+              <input
+                className="border p-3 rounded-lg "
+                {...register("checkOutDate", { required: true })}
+                type="Date"
+                min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
+                onBlur={calculateTotalDays}
+              />
+              {errors.checkOutDate && <p>CheckOutDate is required</p>}
+            </div>
 
-            <label>CheckOutDate</label>
-            <input
-              {...register("checkOutDate", { required: true })}
-              type="Date"
-              min={new Date().toISOString().split("T")[0]} // Set min attribute to current date
-              onBlur={calculateTotalDays}
-            />
-            {errors.checkOutDate && <p>CheckOutDate is required</p>}
-
-            <label>Total Number of Days {totalDays}</label>
-
-            <input type="submit" />
+            <div className="flex flex-col flex-1 gap-4">
+              <br />
+              <input
+                className=" bg-black text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+                type="submit"
+              />
+            </div>
           </form>
         </div>
       )}
-    </div>
+    </>
   );
 };
 export default Reservation;

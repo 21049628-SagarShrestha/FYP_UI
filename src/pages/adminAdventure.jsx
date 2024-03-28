@@ -76,7 +76,7 @@ const adminAdventure = () => {
           accessor: (data) => (
             <div style={{ whiteSpace: "pre-line" }}>
               {data.events.map((event) => event.price).join("\n")}
-            </div> 
+            </div>
           ),
         },
       ],
@@ -87,11 +87,16 @@ const adminAdventure = () => {
       accessor: "_id",
       Cell: ({ cell: { value }, row: { original } }) => (
         <>
-          <a onClick={() => deleteAdventure(value, original.image)}>
+          <a
+            className=" bg-red-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            onClick={() => deleteAdventure(value, original.image)}
+          >
             Delete Adventure
           </a>
           <br />
+          <br />
           <a
+            className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
             onClick={() => {
               setAdventure(value);
               setImages(original.image);
@@ -106,13 +111,20 @@ const adminAdventure = () => {
   ];
 
   return (
-    <div>
+    <>
       {showButton && <AddAdventure adventureId={adventure} image={images} />}
-      <button onClick={() => setShowButton(true)}>Add More Adventure</button>
-      <div>
-        <Table columns={columns} data={data} />
+      <button
+        className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+        onClick={() => setShowButton(true)}
+      >
+        Add More Adventure
+      </button>
+      <div className="m-auto border border-black bg-white gap-4 rounded-lg p-3 max-w-2xl mx-auto my-10 ">
+        <div>
+          <Table columns={columns} data={data} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

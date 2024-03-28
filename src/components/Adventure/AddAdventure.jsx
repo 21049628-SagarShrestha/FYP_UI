@@ -84,45 +84,54 @@ const AddAdventure = ({ adventureId, image }) => {
   };
 
   return (
-    <div>
-      <h3>{adventureId ? "Edit Adventure" : "Add new Adventure"}</h3>
+    <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
+      <h3 className="text-xl font-bold text-center">{adventureId ? "Edit Adventure" : "Add new Adventure"}</h3>
 
-      <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
-        <label>Adventure Name :</label>
+      <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
+      <div className="flex flex-col gap-4 flex-1">
+        <label className="font-semibold">Adventure Name :</label>
         <input
+        className="border p-3 rounded-lg "
           {...register("name", { required: true })}
           placeholder="name"
           type="text"
         />
         {errors.name && <p>Name is required</p>}
 
-        <label>Location :</label>
+        <label className="font-semibold">Location :</label>
         <input
+        className="border p-3 rounded-lg "
           {...register("location", { required: true })}
           placeholder="location"
           type="text"
         />
         {errors.location && <p>Location is required</p>}
 
-        <label>Description :</label>
+        <label className="font-semibold">Description :</label>
         <input
+        className="border p-3 rounded-lg "
           {...register("description", { required: true })}
           placeholder="description"
           type="text"
         />
         {errors.description && <p>Description is required</p>}
-
-        <label>Rating :</label>
+        </div>
+        <div className="flex flex-col flex-1 gap-4">
+        <label className="font-semibold">Rating :</label>
         <input
+        className="border p-3 rounded-lg "
           {...register("rating", { required: true })}
           placeholder="rating"
           type="number"
         />
 
-        <label>Adventure Type :</label>
+      
+
+        <label className="font-semibold">Adventure Type :</label>
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
+            className="border p-3 rounded-lg "
               {...register(`adventureType.${index}.eventName`, {
                 required: true,
               })}
@@ -134,6 +143,7 @@ const AddAdventure = ({ adventureId, image }) => {
             )}
 
             <input
+            className="border p-3 rounded-lg "
               {...register(`adventureType.${index}.price`, { required: true })}
               placeholder={`Price ${index + 1}`}
               type="number"
@@ -151,8 +161,9 @@ const AddAdventure = ({ adventureId, image }) => {
           Add adventureType
         </button>
 
-        <label>Image :</label>
+        <label className="font-semibold">Image :</label>
         <input
+        className="border p-3 rounded-lg "
           {...register("adventureImage", {
             required: true,
             validate: {
@@ -191,9 +202,11 @@ const AddAdventure = ({ adventureId, image }) => {
           />
         ))}
         <input
+        className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
           type="submit"
           value={adventureId ? "Update Adventure " : "Add Adventure"}
         />
+      </div>
       </form>
     </div>
   );
