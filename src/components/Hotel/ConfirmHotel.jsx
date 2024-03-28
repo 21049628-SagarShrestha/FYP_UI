@@ -9,7 +9,10 @@ const ConfirmHotel = ({
   totalDays,
   price,
   room_num,
+  location,
 }) => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const [addRoomReservations] = useAddRoomReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
@@ -32,6 +35,8 @@ const ConfirmHotel = ({
         checkOutDate,
         totalDays,
         totalAmount: amount,
+        user: currentUser.email,
+        location,
       };
 
       await addRoomReservations(formData);
@@ -56,6 +61,17 @@ const ConfirmHotel = ({
               <p>Amount: {amount}</p>
 
               <button
+                onClick={handleConfirmBooking}
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                  borderRadius: "5px",
+                }}
+              >
+                Book
+              </button>
+              <button
                 onClick={handleKhaltiClick}
                 style={{
                   backgroundColor: "black",
@@ -70,7 +86,7 @@ const ConfirmHotel = ({
           </div>
         </div>
       )}
-      {khaltiVisible && <Khalti />}
+      {khaltiVisible && <Khalti amounto={amount} />}
     </div>
   );
 };

@@ -13,8 +13,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
 
- 
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -125,8 +123,6 @@ export default function Header() {
               <FaUser />
             </Link>
           )}
-
-         
         </div>
       </nav>
     </>
