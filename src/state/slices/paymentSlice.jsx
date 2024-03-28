@@ -20,7 +20,7 @@ const paymentSlice = createSlice({
       state.error = null;
     },
 
-    payementFailure: (state, action) => {
+    paymentFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
     },
