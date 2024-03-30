@@ -85,7 +85,9 @@ const hotels = () => {
                 <button
                   className=" bg-black text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
                   onClick={() =>
-                    navigate(`/rooms?hotelId=${i._id}&&location=${i.location}`)
+                    navigate(
+                      `/rooms?hotelId=${i._id}&&facilities=${i.facilities}`
+                    )
                   }
                 >
                   View Rooms
