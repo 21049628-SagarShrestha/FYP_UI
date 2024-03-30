@@ -14,14 +14,14 @@ const paymentSlice = createSlice({
     paymentStart: (state) => {
       state.loading = true;
     },
-    paymentSuccess: (state, action) => {
-      state.paymentStatus = action.payload;
+    paymentSuccess: (state) => {
+      state.paymentStatus = "success";
       state.loading = false;
       state.error = null;
     },
 
-    paymentFailure: (state, action) => {
-      state.error = action.payload;
+    paymentFailure: (state) => {
+      state.error = "failure";
       state.loading = false;
     },
     paymentReset: (state) => {
