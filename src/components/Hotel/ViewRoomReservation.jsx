@@ -55,7 +55,10 @@ const ViewRoomReservation = ({ room_num }) => {
       accessor: "_id",
       Cell: ({ cell: { value } }) => (
         <>
-          <a onClick={() => deleteRoomReservation(value)}>Delete</a>
+          <a 
+          className=" bg-red-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+          onClick={() => deleteRoomReservation(value)}>
+            Delete</a>
           <br />
         </>
       ),
@@ -64,7 +67,7 @@ const ViewRoomReservation = ({ room_num }) => {
 
   return (
     <div>
-      <div>
+      <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-2xl mx-auto my-10 ">
         {isLoading ? (
           <p>Loading...</p>
         ) : (

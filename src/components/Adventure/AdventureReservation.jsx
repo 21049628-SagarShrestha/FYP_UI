@@ -27,7 +27,7 @@ const AdventureReservation = ({ events }) => {
     }
   }, [selectedEvent]);
   return (
-    <div>
+     <div>
       {showConfirmation ? (
         <ConfirmAdventure
           eventDate={watch("eventDate")}

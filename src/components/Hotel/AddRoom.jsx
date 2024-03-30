@@ -26,7 +26,7 @@ const AddRoom = ({ hotelId, roomId, image }) => {
 
   const [imagePreviews, setImagePreviews] = useState([]);
 
-    const submitAlbum = async (data) => {
+  const submitAlbum = async (data) => {
     try {
       const imagesArray = Array.isArray(data.roomImage)
         ? data.roomImage
@@ -79,123 +79,156 @@ const AddRoom = ({ hotelId, roomId, image }) => {
   };
 
   return (
-    <div>
-      <h3>{roomId ? "Edit Room" : "Add new Room"}</h3>
+    <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
+      <h3 className="text-xl font-bold text-center">
+        {roomId ? "Edit Room" : "Add new Room"}
+      </h3>
 
-      <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
-        <input
-          {...register("roomNumber", { required: true })}
-          placeholder="RoomNumber"
-          type="Number"
-        />
-        {errors.RoomNumber && <p>RoomNumber is required</p>}
-
-        <div>
-          <label>Room Type:</label>
-          <div>
-            <label>
-              <input
-                {...register("roomType", { required: true })}
-                type="radio"
-                value="Single"
-              />
-              Single
-            </label>
-            <label>
-              <input
-                {...register("roomType", { required: true })}
-                type="radio"
-                value="Double"
-              />
-              Double
-            </label>
-            <label>
-              <input
-                {...register("roomType", { required: true })}
-                type="radio"
-                value="Suite"
-              />
-              Suite
-            </label>
-          </div>
-          {errors.roomType && <p>Room Type is required</p>}
-        </div>
-
-        <input
-          {...register("pricePerNight", { required: true })}
-          placeholder="PricePerNight"
-          type="Number"
-        />
-        {errors.PricePerNight && <p>PricePerNight is required</p>}
-
-        <label>
-          Availability:
+      <form
+        className="flex flex-col sm:flex-row gap-4"
+        onSubmit={handleSubmit(submitAlbum)}
+        encType="multipart/form-data"
+      >
+        <div className="flex flex-col gap-4 flex-1">
           <input
-            {...register("availability", { required: true })}
-            type="checkbox"
+            className="border p-3 rounded-lg "
+            {...register("roomNumber", { required: true })}
+            placeholder="RoomNumber"
+            type="Number"
           />
-        </label>
-        {errors.availability && <p>Availability is required</p>}
+          {errors.RoomNumber && <p>RoomNumber is required</p>}
 
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <input
-              {...register(`facilities.${index}`, { required: true })}
-              placeholder={`Facility ${index + 1}`}
-              type="text"
-            />
-            {errors.facilities && errors.facilities[index] && (
-              <p>{errors.facilities[index].message}</p>
-            )}
-            <button type="button" onClick={() => remove(index)}>
-              Remove Facility
-            </button>
+          <div>
+            <label>Room Type:</label>
+            <div>
+              <label>
+                <input
+                  className="border p-3 rounded-lg "
+                  {...register("roomType", { required: true })}
+                  type="radio"
+                  value="Single"
+                />
+                Single
+              </label>
+              <label>
+                <input
+                  className="border p-3 rounded-lg "
+                  {...register("roomType", { required: true })}
+                  type="radio"
+                  value="Double"
+                />
+                Double
+              </label>
+              <label>
+                <input
+                  className="border p-3 rounded-lg "
+                  {...register("roomType", { required: true })}
+                  type="radio"
+                  value="Suite"
+                />
+                Suite
+              </label>
+            </div>
+            {errors.roomType && <p>Room Type is required</p>}
           </div>
-        ))}
 
-        <button type="button" onClick={() => append("")}>
-          Add Facility
-        </button>
-
-        <input
-          {...register("roomImage", {
-            required: true,
-            validate: {
-              fileFormat: (value) => {
-                if (!value || !value.type || !value.type.startsWith("image/")) {
-                  return {
-                    type: "fileFormat",
-                    message:
-                      "Images are required and must be in the correct format.",
-                  };
-                }
-                return true;
-              },
-            },
-          })}
-          type="file"
-          accept="image/*"
-          onChange={handleImagePreview}
-          multiple
-        />
-
-        {errors.hotelImage && (
-          <p>
-            {errors.hotelImage.type === "fileFormat"
-              ? "Images are required and must be in the correct format."
-              : "Images are required."}
-          </p>
-        )}
-
-        {imagePreviews.map((preview, index) => (
-          <img
-            key={index}
-            src={preview}
-            alt={`Preview ${index + 1}`}
-            style={{ width: "100px", height: "100px", marginRight: "10px" }}
+          <input
+            className="border p-3 rounded-lg "
+            {...register("pricePerNight", { required: true })}
+            placeholder="PricePerNight"
+            type="Number"
           />
-        ))}
-        <input type="submit" value={roomId ? "Update Room" : "Add Room"} />
+          {errors.PricePerNight && <p>PricePerNight is required</p>}
+
+          <label>
+            Availability:
+            <input
+              className="border p-3 rounded-lg "
+              {...register("availability", { required: true })}
+              type="checkbox"
+            />
+          </label>
+          {errors.availability && <p>Availability is required</p>}
+        </div>
+        <div className="flex flex-col gap-4 flex-1">
+          {fields.map((field, index) => (
+            <div key={field.id}>
+              <input
+                className="border p-3 rounded-lg "
+                {...register(`facilities.${index}`, { required: true })}
+                placeholder={`Facility ${index + 1}`}
+                type="text"
+              />
+              {errors.facilities && errors.facilities[index] && (
+                <p>{errors.facilities[index].message}</p>
+              )}
+              <button
+                className="ml-6 bg-red-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+                type="button"
+                onClick={() => remove(index)}
+              >
+                Remove Facility
+              </button>
+            </div>
+          ))}
+
+          <button
+            className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            type="button"
+            onClick={() => append("")}
+          >
+            Add Facility
+          </button>
+
+          <input
+            className="border p-3 rounded-lg "
+            {...register("roomImage", {
+              required: true,
+              validate: {
+                fileFormat: (value) => {
+                  if (
+                    !value ||
+                    !value.type ||
+                    !value.type.startsWith("image/")
+                  ) {
+                    return {
+                      type: "fileFormat",
+                      message:
+                        "Images are required and must be in the correct format.",
+                    };
+                  }
+                  return true;
+                },
+              },
+            })}
+            type="file"
+            accept="image/*"
+            onChange={handleImagePreview}
+            multiple
+          />
+
+          {errors.hotelImage && (
+            <p>
+              {errors.hotelImage.type === "fileFormat"
+                ? "Images are required and must be in the correct format."
+                : "Images are required."}
+            </p>
+          )}
+
+          {imagePreviews.map((preview, index) => (
+            <img
+              key={index}
+              src={preview}
+              alt={`Preview ${index + 1}`}
+              style={{ width: "100px", height: "100px", marginRight: "10px" }}
+            />
+          ))}
+          <input
+            className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            type="submit"
+            value={roomId ? "Update Room" : "Add Room"}
+          />
+        </div>
       </form>
     </div>
   );

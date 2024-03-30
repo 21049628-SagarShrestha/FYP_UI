@@ -79,18 +79,21 @@ const AddHotel = ({ hotelId, image }) => {
   };
 
   return (
-    <div>
-      <h3>{hotelId ? "Edit Hotel" : "Add new Hotel"}</h3>
+    <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
+      <h3 className="text-xl font-bold text-center">{hotelId ? "Edit Hotel" : "Add new Hotel"}</h3>
 
-      <form onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
+      <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit(submitAlbum)} encType="multipart/form-data">
+      <div className="flex flex-col gap-4 flex-1">
         <input
+        className="border p-3 rounded-lg "
           {...register("name", { required: true })}
           placeholder="name"
           type="text"
         />
         {errors.name && <p>Name is required</p>}
-
+      
         <input
+        className="border p-3 rounded-lg "
           {...register("location", { required: true })}
           placeholder="location"
           type="text"
@@ -98,6 +101,7 @@ const AddHotel = ({ hotelId, image }) => {
         {errors.location && <p>Location is required</p>}
 
         <input
+        className="border p-3 rounded-lg "
           {...register("description", { required: true })}
           placeholder="description"
           type="text"
@@ -105,13 +109,16 @@ const AddHotel = ({ hotelId, image }) => {
         {errors.description && <p>Description is required</p>}
 
         <input
+        className="border p-3 rounded-lg "
           {...register("rating", { required: true })}
           placeholder="rating"
           type="number"
         />
         {errors.rating && <p>Rating is required</p>}
-
+      </div>
+      <div className="flex flex-col gap-4 flex-1">
         <input
+        className="border p-3 rounded-lg "
           {...register("contact", { required: true })}
           placeholder="contact"
           type="number"
@@ -121,6 +128,7 @@ const AddHotel = ({ hotelId, image }) => {
         {fields.map((field, index) => (
           <div key={field.id}>
             <input
+            className="border p-3 rounded-lg "
               {...register(`facilities.${index}`, { required: true })}
               placeholder={`Facility ${index + 1}`}
               type="text"
@@ -128,17 +136,19 @@ const AddHotel = ({ hotelId, image }) => {
             {errors.facilities && errors.facilities[index] && (
               <p>{errors.facilities[index].message}</p>
             )}
-            <button type="button" onClick={() => remove(index)}>
+            <button className="ml-6 bg-red-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl" type="button" onClick={() => remove(index)}>
               Remove Facility
             </button>
           </div>
         ))}
 
-        <button type="button" onClick={() => append("")}>
+        <button className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl" 
+        type="button" onClick={() => append("")}>
           Add Facility
         </button>
 
         <input
+        className="border p-3 rounded-lg "
           {...register("hotelImage", {
             required: true,
             validate: {
@@ -176,7 +186,8 @@ const AddHotel = ({ hotelId, image }) => {
             style={{ width: "100px", height: "100px", marginRight: "10px" }}
           />
         ))}
-        <input type="submit" value={hotelId ? "Update hotel" : "Add Hotel"} />
+        <input className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl" type="submit" value={hotelId ? "Update hotel" : "Add Hotel"} />
+      </div>
       </form>
     </div>
   );

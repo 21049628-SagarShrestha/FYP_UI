@@ -8,9 +8,7 @@ import ViewRoomReservation from "./ViewRoomReservation";
 
 const ViewRoom = ({ hotelId }) => {
   const { data: { Rooms: rooms } = {}, error, isLoading } = useGetRoomsQuery();
-  const filteredRooms = rooms?.filter(
-    (room) => room.hotelId === hotelId && room.availability === true
-  );
+  const filteredRooms = rooms?.filter((room) => room.hotelId === hotelId);
   //   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
   const [roomsId, setRoomsId] = useState("");
@@ -71,28 +69,35 @@ const ViewRoom = ({ hotelId }) => {
       Header: "Action",
       accessor: "_id",
       Cell: ({ cell: { value }, row: { original } }) => (
-        <>
+        <div className="flex gap-2">
           <a
+            className=" bg-slate-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
             onClick={() => {
               setShowViewButton(true);
               setRoom_num(original.roomNumber);
             }}
           >
-            View Reservation
+            Reservation
           </a>
           <br />
-          <a onClick={() => deleteRoom(value, original.image)}>Delete Room</a>
+          <a
+            className=" bg-red-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            onClick={() => deleteRoom(value, original.image)}
+          >
+            Delete
+          </a>
           <br />
           <a
+            className=" bg-slate-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
             onClick={() => {
               setRoomsId(value);
               setImages(original.image);
               setShowButton(true);
             }}
           >
-            Edit Room
+            Edit
           </a>
-        </>
+        </div>
       ),
     },
   ];
@@ -102,8 +107,16 @@ const ViewRoom = ({ hotelId }) => {
       {showButton && (
         <AddRoom hotelId={hotelId} roomId={roomsId} image={images} />
       )}
-      <button onClick={() => setShowButton(true)}>Add More Room</button>
-      <div>
+      <div className="flex justify-center items-center">
+        <button
+          className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+          onClick={() => setShowButton(true)}
+        >
+          Add More Room
+        </button>
+      </div>
+
+      <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-4xl mx-auto my-10 ">
         {isLoading ? (
           <p>Loading...</p>
         ) : (
