@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAddRoomReservationsMutation } from "@/api/api";
 import Khalti from "../Khalti/Khalti";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  reservationReset,
+  reservationStart,
+  reservationSuccess,
+} from "../../state/slices/roomSlice";
+import { paymentReset } from "../../state/slices/paymentSlice";
 
 const ConfirmHotel = ({
   checkInDate,
@@ -9,37 +15,55 @@ const ConfirmHotel = ({
   totalDays,
   price,
   room_num,
-  location,
+  facilities,
 }) => {
-  const { currentUser } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  const { reservationStatus } = useSelector((state) => state.reservation);
+  const { paymentStatus } = useSelector((state) => state.payment);
+
+  console.log(reservationStatus, "status");
+  console.log(paymentStatus, "ppppppptatus");
+
+  // Dispatch reservationStart and reservationSuccess when component mounts
+  useEffect(() => {
+    const formData = {
+      room: room_num,
+      checkInDate,
+      checkOutDate,
+      totalDays,
+      totalAmount: price * totalDays,
+      user: currentUser.email,
+      facilities,
+    };
+    dispatch(reservationStart());
+    dispatch(reservationSuccess(formData));
+  }, []);
+
   const [addRoomReservations] = useAddRoomReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
-  const [khaltiVisible, setKhaltiVisible] = useState(false); // State to manage Khalti visibility
-  const amount = price * totalDays;
+  const [khaltiVisible, setKhaltiVisible] = useState(false);
+
+  useEffect(() => {
+    if (paymentStatus === "success") {
+      handleConfirmBooking();
+    }
+  }, [paymentStatus]);
 
   const closePopup = () => {
     setShowPopup(false);
   };
 
   const handleKhaltiClick = () => {
-    setKhaltiVisible(true); // Set Khalti visibility
+    setKhaltiVisible(true);
   };
 
   const handleConfirmBooking = async () => {
     try {
-      const formData = {
-        room: room_num,
-        checkInDate,
-        checkOutDate,
-        totalDays,
-        totalAmount: amount,
-        user: currentUser.email,
-        location,
-      };
-
-      await addRoomReservations(formData);
+      await addRoomReservations(reservationStatus);
+      console.log("helo");
+      dispatch(paymentReset());
+      dispatch(reservationReset());
     } catch (error) {
       console.error("Error adding hotels:", error);
     }
@@ -58,19 +82,8 @@ const ConfirmHotel = ({
               <p>Check-In Date: {checkInDate}</p>
               <p>Check-Out Date: {checkOutDate}</p>
               <p>Total Number of Days: {totalDays}</p>
-              <p>Amount: {amount}</p>
+              <p>Amount: {price * totalDays}</p>
 
-              <button
-                onClick={handleConfirmBooking}
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "5px",
-                  borderRadius: "5px",
-                }}
-              >
-                Book
-              </button>
               <button
                 onClick={handleKhaltiClick}
                 style={{
@@ -86,7 +99,7 @@ const ConfirmHotel = ({
           </div>
         </div>
       )}
-      {khaltiVisible && <Khalti amounto={amount} />}
+      {khaltiVisible && <Khalti amounto={price * totalDays} />}
     </div>
   );
 };

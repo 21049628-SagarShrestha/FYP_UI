@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ConfirmHotel from "./ConfirmHotel";
 
-const Reservation = ({ price, room_num, location }) => {
+const Reservation = ({ price, room_num, facilities }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [totalDays, setTotalDays] = useState(0);
   const {
@@ -35,7 +35,7 @@ const Reservation = ({ price, room_num, location }) => {
           totalDays={totalDays}
           price={price}
           room_num={room_num}
-          location={location}
+          facilities
         />
       ) : (
         <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
