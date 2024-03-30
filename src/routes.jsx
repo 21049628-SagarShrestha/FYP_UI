@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -19,24 +20,21 @@ import Rooms from "./pages/rooms";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/profile";
 import ChangePassword from "./components/ChangePassword";
-import Register from "./pages/register";
 import ForgotPassword from "./pages/forgotPassword";
 import ResetForm from "./components/ResetForm";
 import Success from "./components/Khalti/KhaltiSuccess";
-import Terms from "./components/Terms";
-
+import ConfirmHotel from "./components/Hotel/ConfirmHotel";
 //set routes to respective pages
 export const AppRoutes = () => (
   <Routes>
     <Route path="signin" element={<SignIn />} />
     <Route path="*" element={<Error />} />
-    <Route path="/register" element={<Register />} />
     <Route path="/resetForm" element={<ResetForm />} />
     <Route path="/forgotPassword" element={<ForgotPassword />} />
-    <Route path="/terms" element={<Terms />} />
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<Index />} />
       <Route path="khaltiSuccess" element={<Success />} />
+      <Route path="confirmHotel" element={<ConfirmHotel />} />
       <Route path="adminHotel" element={<AdminHotel />} />
       <Route path="adminDestination" element={<AdminDestination />} />
       <Route path="adminAdventure" element={<AdminAdventure />} />
