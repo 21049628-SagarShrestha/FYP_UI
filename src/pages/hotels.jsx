@@ -12,24 +12,33 @@ const hotels = () => {
   const { data: { RoomReservation: reserves } = {} } =
     useGetRoomReservationsQuery();
 
-  console.log(reserves, "rerere");
   const RecommendHotel = () => {
     // Filter previous reservations based on the current user's email
     const prevReserve = reserves.filter(
       (reserve) => reserve.user === currentUser.email
     );
-    console.log(prevReserve, "re");
 
     // Extract locations from previous reservations
-    const prevLocations = prevReserve.map((reserve) => reserve.location);
-    console.log(prevLocations, "loc");
-    const recommendedHotelo = hotels.filter((hotel) =>
-      prevLocations.includes(hotel.location)
-    );
-    setRecommendedHotels(recommendedHotelo);
-  };
+    // const prevFacilities = prevReserve.flatMap((reserve) => reserve.facilities);
 
-  console.log(recommendedHotels, "oooooo");
+    const prevFacilities = [];
+    prevReserve.forEach((reserve) => {
+      reserve.facilities.forEach((facility) => {
+        if (!prevFacilities.includes(facility)) {
+          prevFacilities.push(facility);
+        }
+      });
+    });
+
+    // Filter hotels based on facilities
+    const filteredHotels = hotels.filter((hotel) => {
+      return hotel.facilities.every((facility) =>
+        prevFacilities.includes(facility)
+      );
+    });
+
+    setRecommendedHotels(filteredHotels);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;

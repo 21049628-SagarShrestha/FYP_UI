@@ -13,7 +13,8 @@ const Rooms = () => {
 
   const searchParams = new URLSearchParams(window.location.search);
   const hotelIdFromUrl = searchParams.get("hotelId");
-  const hotelFacilities = searchParams.get("facilities");
+  const hotelFacility = searchParams.get("facilities");
+  const hotelFacilities = hotelFacility.split(",");
   const filteredRooms = rooms.filter(
     (room) => room.hotelId === hotelIdFromUrl && room.availability === true
   );

@@ -8,6 +8,7 @@ import {
   reservationSuccess,
 } from "../../state/slices/roomSlice";
 import { paymentReset } from "../../state/slices/paymentSlice";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmHotel = ({
   checkInDate,
@@ -17,13 +18,11 @@ const ConfirmHotel = ({
   room_num,
   facilities,
 }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { reservationStatus } = useSelector((state) => state.reservation);
   const { paymentStatus } = useSelector((state) => state.payment);
-
-  console.log(reservationStatus, "status");
-  console.log(paymentStatus, "ppppppptatus");
 
   // Dispatch reservationStart and reservationSuccess when component mounts
   useEffect(() => {
@@ -61,9 +60,11 @@ const ConfirmHotel = ({
   const handleConfirmBooking = async () => {
     try {
       await addRoomReservations(reservationStatus);
-      console.log("helo");
       dispatch(paymentReset());
       dispatch(reservationReset());
+      setTimeout(function () {
+        navigate("/hotels"); // Navigate to hotel page after 3 seconds
+      }, 3000);
     } catch (error) {
       console.error("Error adding hotels:", error);
     }

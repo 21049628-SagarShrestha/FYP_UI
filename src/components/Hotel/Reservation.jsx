@@ -35,7 +35,7 @@ const Reservation = ({ price, room_num, facilities }) => {
           totalDays={totalDays}
           price={price}
           room_num={room_num}
-          facilities
+          facilities={facilities}
         />
       ) : (
         <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
