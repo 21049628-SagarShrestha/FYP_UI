@@ -17,6 +17,7 @@ const ConfirmHotel = ({
   price,
   room_num,
   facilities,
+  hotelId,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const ConfirmHotel = ({
       totalAmount: price * totalDays,
       user: currentUser.email,
       facilities,
+      hotelId,
     };
     dispatch(reservationStart());
     dispatch(reservationSuccess(formData));

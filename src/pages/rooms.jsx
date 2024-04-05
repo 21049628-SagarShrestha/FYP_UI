@@ -2,8 +2,6 @@ import React, { createContext, useState } from "react";
 import { useGetRoomsQuery } from "../api/api";
 import Reservation from "@/components/Hotel/Reservation";
 
-const PriceContext = createContext();
-
 const Rooms = () => {
   const { data: response, isLoading } = useGetRoomsQuery();
   const rooms = response?.Rooms || [];
@@ -36,6 +34,7 @@ const Rooms = () => {
               price={prices}
               room_num={room}
               facilities={hotelFacilities}
+              hotelId={hotelIdFromUrl}
             />
           )}
           {filteredRooms.length === 0 ? (
@@ -87,4 +86,3 @@ const Rooms = () => {
 };
 
 export default Rooms;
-export { PriceContext };

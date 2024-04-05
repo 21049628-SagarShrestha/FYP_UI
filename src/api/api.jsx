@@ -40,6 +40,13 @@ export const api = createApi({
       query: () => "fetchHotel",
     }),
 
+    addReviews: builder.mutation({
+      query: (addReview) => ({
+        url: "addReview",
+        method: "POST",
+        body: addReview,
+      }),
+    }),
     addHotels: builder.mutation({
       query: (addHotel) => ({
         url: "addHotel",
@@ -277,4 +284,5 @@ export const {
   useResetPasswordsMutation,
   useVerifyPaymentsMutation,
   useVerifySuccessesMutation,
+  useAddReviewsMutation,
 } = api;
