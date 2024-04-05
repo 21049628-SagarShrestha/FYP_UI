@@ -57,7 +57,7 @@ const hotels = () => {
           : hotels
         ).map((i) => {
           return (
-            <div key={i._id} className="d-inner">
+            <div key={i._id} className="d-inner h-auto w-auto">
               <div className="d-first">
                 <img
                   src={i.image}
@@ -79,10 +79,16 @@ const hotels = () => {
                 </p>
 
                 <p>
-                  <b>Facilities: </b> {i.facilities}
+                  <b>Facilities: </b>
+                  <ul>
+                    {i.facilities.map((facility) => (
+                      <li> • {facility}</li>
+                    ))}
+                  </ul>
                 </p>
+
                 <p>
-                  <b>contact: </b> {i.contact}
+                  <b>Contact: </b> {i.contact}
                 </p>
                 <p>
                   <b>Rating: </b> {i.rating}

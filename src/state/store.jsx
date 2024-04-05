@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
 import paymentReducer from "./slices/paymentSlice";
 import roomReducer from "./slices/roomSlice";
+import searchReducer from "./slices/searchSlice";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: persistReducer(persistConfig, userReducer),
   payment: persistReducer(persistConfig, paymentReducer),
   reservation: persistReducer(persistConfig, roomReducer),
+  search: persistReducer(persistConfig, searchReducer),
   [api.reducerPath]: api.reducer,
 });
 

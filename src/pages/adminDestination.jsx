@@ -77,11 +77,12 @@ const adminDestination = () => {
       accessor: "_id",
       Cell: ({ cell: { value }, row: { original } }) => (
         <div className="flex gap-2">
-          <a             
+          <a
             className=" bg-red-500 h-9 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
-            onClick={() => deleteDestination(value, original.image)}>
+            onClick={() => deleteDestination(value, original.image)}
+          >
             Delete
-            </a>
+          </a>
           <br />
           <a
             className=" bg-slate-500 h-9 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
@@ -104,13 +105,14 @@ const adminDestination = () => {
         <AddDestination destinationId={destination} image={images} />
       )}
       <div className="flex justify-center items-center">
-      <button 
-      className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
-      onClick={() => setShowButton(true)}> 
-      Add More Destination
-      </button>
+        <button
+          className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+          onClick={() => setShowButton(true)}
+        >
+          Add More Destination
+        </button>
       </div>
-      <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-7xl mx-auto my-10 ">
+      <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-8xl mx-auto my-10 ">
         <Table columns={columns} data={data} />
       </div>
     </div>

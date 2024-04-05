@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -6,16 +6,36 @@ import { FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./Header.css";
+import { useForm } from "react-hook-form";
+import { searchStart, searchSuccess } from "../../state/slices/searchSlice";
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const [dynamicTitle, setDynamicTitle] = useState("Home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    dispatch(searchStart());
+    dispatch(searchSuccess(searchQuery));
+    console.log(searchQuery, "se");
+  }, [searchQuery]);
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <>
       <link
@@ -24,21 +44,8 @@ export default function Header() {
       />
       <Helmet>
         <link rel="icon" type="image/jpg" href="../assets/images/hotel.jpg" />
-
         <title>{`Travellers - ${dynamicTitle}`}</title>
       </Helmet>
-
-      {/* <Link to="/profile">
-            {currentUser ? (
-              <img
-                className="rounded-full h-7 w-7 object-cover"
-                src=""
-                alt="profile"
-              />
-            ) : (
-              <li className=" text-slate-700 hover:underline">Sign In</li>
-            )}
-          </Link> */}
 
       <nav className="NavbarItem">
         <Link to="/" onClick={() => setDynamicTitle("Home")}>
@@ -51,13 +58,22 @@ export default function Header() {
         </div>
         <ul className={isMenuOpen ? "Navmenu active" : "Navmenu"}>
           <li>
-            <form className="bg-slate-100 p-1.5 border-2 border-grey rounded-xl flex ml-5 items-center">
+            <form
+              className="bg-slate-100 p-1.5 border-2 border-grey rounded-xl flex ml-5 items-center"
+              onSubmit={(e) => {
+                e.preventDefault(); // Prevents the form from submitting
+              }}
+            >
               <input
                 className="bg-transparent focus:outline-none w-20 sm:w-40"
-                type="text"
+                {...register("search", { required: true })}
                 placeholder="Search..."
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
               />
-              <button>
+              {errors.search && <p>Location is required</p>}
+              <button type="submit">
                 <FaSearch />
               </button>
             </form>

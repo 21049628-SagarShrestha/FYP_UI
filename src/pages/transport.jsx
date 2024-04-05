@@ -51,8 +51,6 @@ const Transport = () => {
     <div className="flight-container">
       {reservationDetails && <TransportReservation {...reservationDetails} />}
 
-      <div>{/* ... Your existing code */}</div>
-
       {filteredFlights.length === 0 ? (
         <p>No flights available for the selected date.</p>
       ) : (

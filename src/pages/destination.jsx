@@ -2,6 +2,7 @@ import React from "react";
 import { useGetDestinationsQuery } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 import "@/assets/Styles/destination.css";
+
 const hotels = () => {
   const {
     data: { destinations: destinations } = {},
@@ -9,6 +10,7 @@ const hotels = () => {
     isLoading,
   } = useGetDestinationsQuery();
   const navigate = useNavigate();
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -36,7 +38,12 @@ const hotels = () => {
                 </p>
 
                 <p>
-                  <b>Places: </b> {i.placesToVisit}
+                  <b>Places: </b>
+                  <ul>
+                    {i.placesToVisit.map((place) => (
+                      <li> • {place}</li>
+                    ))}
+                  </ul>
                 </p>
 
                 <p>
