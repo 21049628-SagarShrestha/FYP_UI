@@ -1,0 +1,40 @@
+/* History component styles */
+.history-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.reservation-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.reservation-details {
+  margin-bottom: 10px;
+}
+
+.reservation-details p {
+  margin: 5px 0;
+}
+
+/* Styling specific to adventure reservations */
+.adventure-reservation {
+  border-color: #4caf50; /* Green border */
+}
+
+/* Styling specific to room reservations */
+.room-reservation {
+  border-color: #2196f3; /* Blue border */
+}
