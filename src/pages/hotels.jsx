@@ -16,7 +16,6 @@ const hotels = () => {
   let { data: { Hotels: hotels } = {}, error, isLoading } = useGetHotelsQuery();
   const { data: { RoomReservation: reserves } = {} } =
     useGetRoomReservationsQuery();
-
   // Filter previous reservations based on the current user's email
   const prevReserve = reserves?.filter(
     (reserve) => reserve.user === currentUser.email
@@ -75,9 +74,14 @@ const hotels = () => {
   if (error) {
     return <p>Error fetching hotels</p>;
   }
+
+  function handleCloseBooking() {
+    setReview(false);
+  }
+
   return (
     <div className="d-main">
-      {review && <Review hotelId={hotelId} />}
+      {review && <Review hotelId={hotelId} onClose={handleCloseBooking} />}
       <button onClick={() => RecommendHotel()}> Recommend</button>
       {(hotels && hotels.length > 0) ||
       (recommendedHotels && recommendedHotels.length > 0) ? (
@@ -86,7 +90,7 @@ const hotels = () => {
           : hotels
         ).map((i) => {
           return (
-            <div key={i._id} className="d-inner h-auto w-auto">
+            <div key={i._id} className="d-inner h-xxxxl w-auto">
               <div className="d-first">
                 <img
                   src={i.image}
@@ -112,6 +116,15 @@ const hotels = () => {
                   <ul>
                     {i.facilities.map((facility, index) => (
                       <li key={index}> • {facility}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <b>Review: </b>
+                  <ul>
+                    {i.review.map((s, index) => (
+                      <li key={index}> • {s}</li>
                     ))}
                   </ul>
                 </div>
