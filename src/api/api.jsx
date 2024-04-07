@@ -47,6 +47,13 @@ export const api = createApi({
         body: addReview,
       }),
     }),
+    addReviewsA: builder.mutation({
+      query: (addReviewA) => ({
+        url: "addReviewA",
+        method: "POST",
+        body: addReviewA,
+      }),
+    }),
     addHotels: builder.mutation({
       query: (addHotel) => ({
         url: "addHotel",
@@ -196,6 +203,10 @@ export const api = createApi({
       }),
     }),
 
+    getAdventureReservations: builder.query({
+      query: () => "fetchAdventureReservation",
+    }),
+
     getFlights: builder.query({
       query: () => "fetchFlight",
     }),
@@ -270,6 +281,7 @@ export const {
   useUpdateAdventuresMutation,
   useDeleteAdventuresMutation,
   useAddAdventureReservationsMutation,
+  useGetAdventureReservationsQuery,
   useAddRoomReservationsMutation,
   useGetRoomReservationsQuery,
   useUpdateRoomResevationsMutation,
@@ -285,4 +297,5 @@ export const {
   useVerifyPaymentsMutation,
   useVerifySuccessesMutation,
   useAddReviewsMutation,
+  useAddReviewsAMutation,
 } = api;
