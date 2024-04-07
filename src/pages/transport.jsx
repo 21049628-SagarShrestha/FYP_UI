@@ -89,8 +89,9 @@ const Transport = () => {
                   <div>
                     <strong>Price:</strong> {price}
                   </div>
-                </div>
-                <button
+                  
+                  <button
+                    
                   onClick={() =>
                     bookFlight({
                       flightDate,
@@ -105,6 +106,9 @@ const Transport = () => {
                 >
                   Book Flight
                 </button>
+                
+                </div>
+                
               </div>
             )
           )}
