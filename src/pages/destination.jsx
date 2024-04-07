@@ -40,8 +40,8 @@ const hotels = () => {
                 <p>
                   <b>Places: </b>
                   <ul>
-                    {i.placesToVisit.map((place) => (
-                      <li> • {place}</li>
+                    {i.placesToVisit.map((place, index) => (
+                      <li key={index}> • {place}</li>
                     ))}
                   </ul>
                 </p>
