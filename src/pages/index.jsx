@@ -6,6 +6,7 @@ import {
 } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "@/assets/styles/home.css";
 
 const Index = () => {
   const { searchStatus } = useSelector((state) => state.search);

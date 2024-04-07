@@ -31,8 +31,8 @@ const adminHotel = () => {
       const deletePromises = image.map(async (x) => {
         return deleteFile(x);
       });
-      await Promise.all(deletePromises);
       await deleteHotels(id);
+      await Promise.all(deletePromises);
     } catch (error) {
       console.error(`Error deleting Hotel:`, error);
     }
@@ -91,11 +91,16 @@ const adminHotel = () => {
           </a>
           <br />
           <br />
-          <a className=" bg-red-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
-          onClick={() => deleteHotel(value, original.image)}>
-            Delete</a>
-          <br /><br />
-          <a className=" bg-slate-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+          <a
+            className=" bg-red-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            onClick={() => deleteHotel(value, original.image)}
+          >
+            Delete
+          </a>
+          <br />
+          <br />
+          <a
+            className=" bg-slate-500 h-10 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
             onClick={() => {
               setRooms(value);
               setImages(original.image);
@@ -104,7 +109,8 @@ const adminHotel = () => {
           >
             Edit
           </a>
-          <br /><br />
+          <br />
+          <br />
         </div>
       ),
     },
@@ -114,13 +120,16 @@ const adminHotel = () => {
     <>
       {showButton && <AddHotel hotelId={rooms} image={images} />}
       <div className="flex justify-center items-center">
-      <button className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
-      onClick={() => setShowButton(true)}>
-        Add More Hotels
-        </button></div>
+        <button
+          className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+          onClick={() => setShowButton(true)}
+        >
+          Add More Hotels
+        </button>
+      </div>
       <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-5xl mx-auto my-10 ">
         <div>
-        <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} />
         </div>
       </div>
       {viewRoom && <ViewRoom hotelId={rooms} />}

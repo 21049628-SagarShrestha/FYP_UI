@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ConfirmTransport from "./ConfirmTransport";
-
+import { FaMinus, FaUser } from "react-icons/fa";
 const TransportReservation = ({
   flightDate,
   airline,
@@ -29,7 +29,7 @@ const TransportReservation = ({
   };
 
   return (
-    <div>
+    <>
       {showConfirmation ? (
         <ConfirmTransport
           userName={watch("userName")}
@@ -44,31 +44,46 @@ const TransportReservation = ({
           resetConfirmation={resetConfirmation}
         />
       ) : (
-        <div>
-          <h3>Book a flight</h3>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white  border border-black  rounded-lg p-3 max-w-4xl mx-auto my-10">
+          
+          <h3 className="text-center font-extrabold uppercase">Book a flight</h3>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label>User name: </label>
+          <form 
+          className="flex flex-col sm:flex-row gap-4"
+          onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4 flex-1">
+            <label  className="font-semibold">User name: </label>
             <input
+            className="border p-3 rounded-lg "
               {...register("userName", { required: true })}
               placeholder="Full Name"
               type="text"
             />
             {errors.userName && <p>User name is required</p>}
+            </div>
 
-            <label>Phone: </label>
+            <div className="flex flex-col gap-4 flex-1">
+            <label  className="font-semibold">Phone: </label>
             <input
+            className="border p-3 rounded-lg "
               {...register("phone", { required: true })}
               placeholder="Contact"
               type="number"
-            />
+              />
             {errors.phone && <p>Phone is required</p>}
 
-            <input type="submit" />
+            </div>
+            <div className="flex flex-col gap-4 flex-1">
+            <br />
+            <input className=" p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            type="submit" />
+            </div>
           </form>
         </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
