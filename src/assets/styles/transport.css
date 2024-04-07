@@ -30,3 +30,12 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.flight-details button:hover {
+  background-color: slategrey;
+  color: #fff;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
