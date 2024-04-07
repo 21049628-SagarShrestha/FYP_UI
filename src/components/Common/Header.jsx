@@ -29,7 +29,6 @@ export default function Header() {
   useEffect(() => {
     dispatch(searchStart());
     dispatch(searchSuccess(searchQuery));
-    console.log(searchQuery, "se");
   }, [searchQuery]);
 
   const handleSearchInputChange = (event) => {
