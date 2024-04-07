@@ -91,7 +91,7 @@ const adminAdventure = () => {
             className=" bg-red-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
             onClick={() => deleteAdventure(value, original.image)}
           >
-            Delete Adventure
+            Delete
           </a>
           <br />
           <br />
@@ -103,7 +103,7 @@ const adminAdventure = () => {
               setShowButton(true);
             }}
           >
-            Edit Adventure
+            Edit
           </a>
         </>
       ),
