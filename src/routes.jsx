@@ -25,6 +25,7 @@ import ResetForm from "./components/ResetForm";
 import Success from "./components/Khalti/KhaltiSuccess";
 import ConfirmHotel from "./components/Hotel/ConfirmHotel";
 import ConfirmAdventure from "./components/Adventure/ConfirmAdvneture";
+import History from "./pages/History";
 
 //set routes to respective pages
 export const AppRoutes = () => (
@@ -36,6 +37,7 @@ export const AppRoutes = () => (
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<Index />} />
       <Route path="khaltiSuccess" element={<Success />} />
+      <Route path="history" element={<History />} />
       <Route path="confirmHotel" element={<ConfirmHotel />} />
       <Route path="confirmAdventure" element={<ConfirmAdventure />} />
       <Route path="adminHotel" element={<AdminHotel />} />
