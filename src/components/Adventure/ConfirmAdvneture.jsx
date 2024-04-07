@@ -1,24 +1,74 @@
 import React, { useState } from "react";
 import { useAddAdventureReservationsMutation } from "@/api/api";
+import Khalti from "../Khalti/Khalti";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  reservationReset,
+  reservationStart,
+  reservationSuccess,
+} from "../../state/slices/roomSlice";
+import { paymentReset } from "../../state/slices/paymentSlice";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-const ConfirmAdventure = ({ eventDate, userName, phone, event, price }) => {
+const ConfirmAdventure = ({
+  eventDate,
+  userName,
+  phone,
+  event,
+  price,
+  adventureId,
+}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  const { reservationStatus } = useSelector((state) => state.reservation);
+  console.log(reservationStatus, "status");
+  const { paymentStatus } = useSelector((state) => state.payment);
+  console.log(paymentStatus, "status");
+  // Dispatch reservationStart and reservationSuccess when component mounts
+  useEffect(() => {
+    const formData = {
+      eventDate,
+      userName,
+      phone,
+      event,
+      price,
+      adventureId,
+      user: currentUser.email,
+    };
+
+    console.log(formData, "data");
+    dispatch(reservationStart());
+    dispatch(reservationSuccess(formData));
+  }, []);
+
   const [addAdventureReservations] = useAddAdventureReservationsMutation();
   const [showPopup, setShowPopup] = useState(true);
+  const [khaltiVisible, setKhaltiVisible] = useState(false);
+
+  useEffect(() => {
+    if (paymentStatus === "success") {
+      handleConfirmBooking();
+    }
+  }, [paymentStatus]);
+
   const closePopup = () => {
     setShowPopup(false);
   };
 
-  const submitAlbum = async () => {
-    try {
-      const formData = {
-        eventDate,
-        userName,
-        phone,
-        event,
-        price,
-      };
+  const handleKhaltiClick = () => {
+    setKhaltiVisible(true);
+  };
 
-      await addAdventureReservations(formData);
+  const handleConfirmBooking = async () => {
+    try {
+      await addAdventureReservations(reservationStatus);
+      dispatch(paymentReset());
+      dispatch(reservationReset());
+      setTimeout(function () {
+        navigate("/adventure"); // Navigate to hotel page after 3 seconds
+      }, 3000);
     } catch (error) {
       console.error("Error adding Adventure:", error);
     }
@@ -39,13 +89,22 @@ const ConfirmAdventure = ({ eventDate, userName, phone, event, price }) => {
               <p>Phone: {phone}</p>
               <p>Price: {price}</p>
               <p>Event: {event}</p>
-
-              <button onClick={submitAlbum}>Book</button>
-              <button>Pay with Khalti</button>
+              <button
+                onClick={handleKhaltiClick}
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                  borderRadius: "5px",
+                }}
+              >
+                Pay with Khalti
+              </button>
             </div>
           </div>
         </div>
       )}
+      {khaltiVisible && <Khalti amounto={price} purpose={"adventure"} />}
     </div>
   );
 };
