@@ -102,7 +102,9 @@ const ConfirmHotel = ({
           </div>
         </div>
       )}
-      {khaltiVisible && <Khalti amounto={price * totalDays} />}
+      {khaltiVisible && (
+        <Khalti amounto={price * totalDays} purpose={"hotel"} />
+      )}
     </div>
   );
 };

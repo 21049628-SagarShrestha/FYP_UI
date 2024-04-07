@@ -39,6 +39,8 @@ const Reservation = ({ price, room_num, facilities, hotelId }) => {
           hotelId={hotelId}
         />
       ) : (
+        
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="border border-black bg-white  rounded-lg p-3 max-w-4xl mx-auto my-10 ">
           <h3 className="text-xl font-bold text-center">Make Bookings</h3>
 
@@ -82,6 +84,7 @@ const Reservation = ({ price, room_num, facilities, hotelId }) => {
             </div>
           </form>
         </div>
+      </div>
       )}
     </>
   );
