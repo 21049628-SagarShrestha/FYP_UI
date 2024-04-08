@@ -42,10 +42,13 @@ const Index = () => {
 
   // Combine all data based on searchStatus
   let filteredData = [];
+
   switch (searchStatus) {
     case "hotels":
-      filteredData = hotels.filter((hotel) =>
-        hotel.name.toLowerCase().includes(searchStatus.toLowerCase())
+      filteredData = hotels.filter(
+        (hotel) =>
+          hotel.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
+          hotel.location.toLowerCase().includes(searchStatus.toLowerCase())
       );
       break;
     case "destinations":
@@ -54,14 +57,19 @@ const Index = () => {
       );
       break;
     case "adventures":
-      filteredData = adventures.filter((adventure) =>
-        adventure.name.toLowerCase().includes(searchStatus.toLowerCase())
+      filteredData = adventures.filter(
+        (adventure) =>
+          adventure.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
+          adventure.location.toLowerCase().includes(searchStatus.toLowerCase())
       );
       break;
     default:
       // Filter through all data if searchStatus is not recognized
       hotels.forEach((hotel) => {
-        if (hotel.name.toLowerCase().includes(searchStatus.toLowerCase())) {
+        if (
+          hotel.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
+          hotel.location.toLowerCase().includes(searchStatus.toLowerCase())
+        ) {
           filteredData.push(hotel);
         }
       });
@@ -73,18 +81,95 @@ const Index = () => {
         }
       });
       adventures.forEach((adventure) => {
-        if (adventure.name.toLowerCase().includes(searchStatus.toLowerCase())) {
+        if (
+          adventure.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
+          adventure.location.toLowerCase().includes(searchStatus.toLowerCase())
+        ) {
           filteredData.push(adventure);
         }
       });
       break;
   }
+
   console.log(filteredData, "data");
   return (
     <div className="d-main">
       {filteredData.map((item, index) => (
-        <div key={index}>
-          <p>{item.name}</p>
+        <div key={index} className="item-container">
+          <p className="item-name">{item.name}</p>
+          {item.location && (
+            <p className="item-location">Location: {item.location}</p>
+          )}
+          {item.image && (
+            <div className="item-image">
+              {item.image.map((imageUrl, index) => (
+                <img key={index} src={imageUrl} alt={`Image ${index}`} />
+              ))}
+            </div>
+          )}
+          {item.contact && (
+            <p className="item-contact">Contact: {item.contact}</p>
+          )}
+          {item.cost && <p className="item-description">Cost: {item.cost}</p>}
+          {item.language && (
+            <p className="item-description">Language: {item.language}</p>
+          )}
+          {item.weatherInfo && (
+            <p className="item-description">Weather Info: {item.weatherInfo}</p>
+          )}
+          {item.rating && (
+            <p className="item-description">Rating: {item.rating}</p>
+          )}
+          {item.description && (
+            <p className="item-description">{item.description}</p>
+          )}
+          {item.facilities && (
+            <ul className="item-facilities">
+              Facilities:
+              {item.facilities.map((facility, index) => (
+                <li key={index}>{facility}</li>
+              ))}
+            </ul>
+          )}
+          {item.placesToVisit && (
+            <ul className="item-facilities">
+              Places To Visit:
+              {item.placesToVisit.map((place, index) => (
+                <li key={index}>{place}</li>
+              ))}
+            </ul>
+          )}
+          {item.review && (
+            <ul className="item-facilities">
+              Review:
+              {item.review.map((review, index) => (
+                <li key={index}>{review}</li>
+              ))}
+            </ul>
+          )}
+
+          {item.events && (
+            <div className="flex gap-4 ">
+              <div style={{ whiteSpace: "pre-line" }}>
+                <span className="font-bold">Events</span> <br />
+                {item.events.map((event) => event.eventName).join("\n")}
+              </div>
+              <div style={{ whiteSpace: "pre-line" }}>
+                <span className="font-bold">Price</span> <br />
+                {item.events.map((event) => event.price).join("\n")}
+              </div>
+            </div>
+          )}
+
+          {item.room && (
+            <ul className="item-facilities">
+              Room:
+              {item.room.map((room, index) => (
+                <li key={index}>{room}</li>
+              ))}
+            </ul>
+          )}
+          {item.rating && <p className="item-rating">Rating: {item.rating}</p>}
         </div>
       ))}
     </div>
