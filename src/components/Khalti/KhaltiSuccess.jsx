@@ -32,6 +32,9 @@ const Success = () => {
           } else if (purpose === "adventure") {
             console.log("advenrurueureueur");
             navigate("/confirmAdventure");
+          } else if (purpose === "flight") {
+            console.log("flightutututtuttut");
+            navigate("/confirmTransport");
           } else {
             console.log("buwa");
           }

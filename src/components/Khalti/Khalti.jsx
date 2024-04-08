@@ -15,7 +15,7 @@ const Khalti = ({ amounto, purpose }) => {
           return_url: `http://localhost:5173/khaltiSuccess/`,
           website_url: "http://localhost:5173/",
           amount: 1000,
-          purchase_order_id: "S7",
+          purchase_order_id: "S8",
           purchase_order_name: purpose,
           customer_info: {
             name: currentUser.email,
