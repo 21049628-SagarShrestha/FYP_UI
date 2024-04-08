@@ -89,26 +89,23 @@ const Transport = () => {
                   <div>
                     <strong>Price:</strong> {price}
                   </div>
-                  
+
                   <button
-                    
-                  onClick={() =>
-                    bookFlight({
-                      flightDate,
-                      airline,
-                      arrival_airport,
-                      departure_time,
-                      flight_time,
-                      price,
-                      departure_airport,
-                    })
-                  }
-                >
-                  Book Flight
-                </button>
-                
+                    onClick={() =>
+                      bookFlight({
+                        flightDate,
+                        airline,
+                        arrival_airport,
+                        departure_time,
+                        flight_time,
+                        price,
+                        departure_airport,
+                      })
+                    }
+                  >
+                    Book Flight
+                  </button>
                 </div>
-                
               </div>
             )
           )}
