@@ -1,6 +1,9 @@
 // ExampleComponent.js
 import React, { useState } from "react";
-import { useGetAdventuresQuery, useDeleteAdventuresMutation } from "@/api/api";
+import {
+  useGetAdventuresAdminQuery,
+  useDeleteAdventuresMutation,
+} from "@/api/api";
 import AddAdventure from "@/components/Adventure/AddAdventure";
 import { deleteFile } from "@/utils/firebaseStorage";
 import Table from "@/components/Common/Table";
@@ -10,7 +13,7 @@ const adminAdventure = () => {
     data: { adventures: adventures } = {},
     error,
     isLoading,
-  } = useGetAdventuresQuery();
+  } = useGetAdventuresAdminQuery();
 
   const [adventure, setAdventure] = useState("");
   const [images, setImages] = useState("");
@@ -22,7 +25,7 @@ const adminAdventure = () => {
   }
 
   if (error) {
-    return <p>Error fetching Adventure</p>;
+    return <p>{error.data.message}</p>;
   }
 
   const deleteAdventure = async (id, image) => {

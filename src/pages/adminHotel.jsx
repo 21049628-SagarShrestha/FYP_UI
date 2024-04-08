@@ -1,6 +1,6 @@
 // ExampleComponent.js
 import React, { useState } from "react";
-import { useGetHotelsQuery, useDeleteHotelsMutation } from "@/api/api";
+import { useGetHotelsAdminQuery, useDeleteHotelsMutation } from "@/api/api";
 import AddHotel from "@/components/Hotel/AddHotel";
 import { deleteFile } from "../utils/firebaseStorage";
 import ViewRoom from "../components/Hotel/ViewRoom";
@@ -11,7 +11,7 @@ const adminHotel = () => {
     data: { Hotels: hotels } = {},
     error,
     isLoading,
-  } = useGetHotelsQuery();
+  } = useGetHotelsAdminQuery();
   const [rooms, setRooms] = useState("");
   const [images, setImages] = useState("");
   const [showButton, setShowButton] = useState(false);
@@ -23,7 +23,7 @@ const adminHotel = () => {
   }
 
   if (error) {
-    return <p>Error fetching hotels</p>;
+    return <p>{error.data.message}</p>;
   }
 
   const deleteHotel = async (id, image) => {

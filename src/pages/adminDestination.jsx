@@ -1,7 +1,7 @@
 // ExampleComponent.js
 import React, { useState } from "react";
 import {
-  useGetDestinationsQuery,
+  useGetDestinationsAdminQuery,
   useDeleteDestinationsMutation,
 } from "@/api/api";
 import AddDestination from "@/components/AddDestination";
@@ -13,7 +13,7 @@ const adminDestination = () => {
     data: { destinations: destinations } = {},
     error,
     isLoading,
-  } = useGetDestinationsQuery();
+  } = useGetDestinationsAdminQuery();
   const [deleteDestinations] = useDeleteDestinationsMutation();
   const [showButton, setShowButton] = useState(false);
   const [destination, setDestination] = useState("");
@@ -24,7 +24,7 @@ const adminDestination = () => {
   }
 
   if (error) {
-    return <p>Error fetching hotels</p>;
+    return <p>{error.data.message}</p>;
   }
 
   const deleteDestination = async (id, image) => {

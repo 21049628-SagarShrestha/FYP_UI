@@ -1,6 +1,6 @@
 // ExampleComponent.js
 import React, { useState } from "react";
-import { useGetFlightsQuery } from "@/api/api";
+import { useGetFlightsAdminQuery } from "@/api/api";
 import Table from "../components/Common/Table";
 
 const adminTransport = () => {
@@ -8,14 +8,14 @@ const adminTransport = () => {
     data: { Flights: flights } = {},
     error,
     isLoading,
-  } = useGetFlightsQuery();
+  } = useGetFlightsAdminQuery();
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   if (error) {
-    return <p>Error fetching Flights</p>;
+    return <p>{error.data.message}</p>;
   }
 
   const data = flights || [];

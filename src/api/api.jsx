@@ -40,6 +40,10 @@ export const api = createApi({
       query: () => "fetchHotel",
     }),
 
+    getHotelsAdmin: builder.query({
+      query: () => "fetchHotelAdmin",
+    }),
+
     addReviews: builder.mutation({
       query: (addReview) => ({
         url: "addReview",
@@ -112,6 +116,10 @@ export const api = createApi({
       query: () => "fetchDestination",
     }),
 
+    getDestinationsAdmin: builder.query({
+      query: () => "fetchDestinationAdmin",
+    }),
+
     addDestinations: builder.mutation({
       query: (addDestination) => ({
         url: "addDestination",
@@ -178,6 +186,10 @@ export const api = createApi({
       query: () => "fetchAdventure",
     }),
 
+    getAdventuresAdmin: builder.query({
+      query: () => "fetchAdventureAdmin",
+    }),
+
     updateAdventures: builder.mutation({
       query: ({ id, updateAdventure }) => ({
         url: `updateAdventure/${id}`,
@@ -209,6 +221,10 @@ export const api = createApi({
 
     getFlights: builder.query({
       query: () => "fetchFlight",
+    }),
+
+    getFlightsAdmin: builder.query({
+      query: () => "fetchFlightAdmin",
     }),
 
     addFlightReservations: builder.mutation({
@@ -266,6 +282,7 @@ export const api = createApi({
 export const {
   useAddHotelsMutation,
   useGetHotelsQuery,
+  useGetHotelsAdminQuery,
   useUpdateHotelsMutation,
   useDeleteHotelsMutation,
   useAddRoomsMutation,
@@ -274,10 +291,12 @@ export const {
   useDeleteRoomsMutation,
   useAddDestinationsMutation,
   useGetDestinationsQuery,
+  useGetDestinationsAdminQuery,
   useDeleteDestinationsMutation,
   useUpdateDestinationsMutation,
   useAddAdventuresMutation,
   useGetAdventuresQuery,
+  useGetAdventuresAdminQuery,
   useUpdateAdventuresMutation,
   useDeleteAdventuresMutation,
   useAddAdventureReservationsMutation,
@@ -287,6 +306,7 @@ export const {
   useUpdateRoomResevationsMutation,
   useDeleteRoomReservationsMutation,
   useGetFlightsQuery,
+  useGetFlightsAdminQuery,
   useAddFlightReservationsMutation,
   useAddUsersMutation,
   useGetUsersQuery,
