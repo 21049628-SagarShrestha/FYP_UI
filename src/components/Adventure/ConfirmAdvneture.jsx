@@ -14,7 +14,7 @@ import { useEffect } from "react";
 const ConfirmAdventure = ({
   eventDate,
   userName,
-  phone,
+  phone, 
   event,
   price,
   adventureId,
@@ -23,9 +23,7 @@ const ConfirmAdventure = ({
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { reservationStatus } = useSelector((state) => state.reservation);
-  console.log(reservationStatus, "status");
   const { paymentStatus } = useSelector((state) => state.payment);
-  console.log(paymentStatus, "status");
   // Dispatch reservationStart and reservationSuccess when component mounts
   useEffect(() => {
     const formData = {
@@ -38,7 +36,6 @@ const ConfirmAdventure = ({
       user: currentUser.email,
     };
 
-    console.log(formData, "data");
     dispatch(reservationStart());
     dispatch(reservationSuccess(formData));
   }, []);
@@ -67,7 +64,7 @@ const ConfirmAdventure = ({
       dispatch(paymentReset());
       dispatch(reservationReset());
       setTimeout(function () {
-        navigate("/adventure"); // Navigate to hotel page after 3 seconds
+        navigate("/adventure"); // Navigate to adventure page after 3 seconds
       }, 3000);
     } catch (error) {
       console.error("Error adding Adventure:", error);

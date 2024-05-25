@@ -7,6 +7,7 @@ import {
 import AddAdventure from "@/components/Adventure/AddAdventure";
 import { deleteFile } from "@/utils/firebaseStorage";
 import Table from "@/components/Common/Table";
+import AdminHeader from "../components/Common/AdminHeader";
 
 const adminAdventure = () => {
   const {
@@ -35,13 +36,15 @@ const adminAdventure = () => {
       });
       await Promise.all(deletePromises);
       await deleteAdventures(id);
+      toast.success("Delete Adventure successful!", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error(`Error deleting Adventure:`, error);
     }
   };
 
   const data = adventures || [];
-  console.log(data);
   const columns = [
     {
       Header: "Image",
@@ -115,6 +118,7 @@ const adminAdventure = () => {
 
   return (
     <>
+      <AdminHeader />
       {showButton && <AddAdventure adventureId={adventure} image={images} />}
       <button
         className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"

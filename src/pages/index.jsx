@@ -7,11 +7,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "@/assets/styles/home.css";
+import Header from "../components/Common/Header";
 
 const Index = () => {
   const { searchStatus } = useSelector((state) => state.search);
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("hotels"); // Default filter is "hotels"
   const {
     data: { Hotels: hotels } = {},
     error: hotelsError,
@@ -28,9 +28,8 @@ const Index = () => {
     isLoading: adventuresLoading,
   } = useGetAdventuresQuery();
 
-  console.log(hotels, "hotel");
-  console.log(destinations, "dset");
-  console.log(adventures, "adv");
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser, "home");
 
   if (hotelsLoading || destinationsLoading || adventuresLoading) {
     return <p>Loading...</p>;
@@ -60,7 +59,13 @@ const Index = () => {
       filteredData = adventures.filter(
         (adventure) =>
           adventure.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
-          adventure.location.toLowerCase().includes(searchStatus.toLowerCase())
+          adventure.location
+            .toLowerCase()
+            .includes(searchStatus.toLowerCase()) ||
+          (adventure.events &&
+            adventure.events.some((event) =>
+              event.eventName.toLowerCase().includes(searchStatus.toLowerCase())
+            ))
       );
       break;
     default:
@@ -83,7 +88,13 @@ const Index = () => {
       adventures.forEach((adventure) => {
         if (
           adventure.name.toLowerCase().includes(searchStatus.toLowerCase()) ||
-          adventure.location.toLowerCase().includes(searchStatus.toLowerCase())
+          adventure.location
+            .toLowerCase()
+            .includes(searchStatus.toLowerCase()) ||
+          (adventure.events &&
+            adventure.events.some((event) =>
+              event.eventName.toLowerCase().includes(searchStatus.toLowerCase())
+            ))
         ) {
           filteredData.push(adventure);
         }
@@ -91,88 +102,106 @@ const Index = () => {
       break;
   }
 
-  console.log(filteredData, "data");
   return (
-    <div className="d-main">
-      {filteredData.map((item, index) => (
-        <div key={index} className="item-container">
-          <p className="item-name">{item.name}</p>
-          {item.location && (
-            <p className="item-location">Location: {item.location}</p>
-          )}
-          {item.image && (
-            <div className="item-image">
-              {item.image.map((imageUrl, index) => (
-                <img key={index} src={imageUrl} alt={`Image ${index}`} />
-              ))}
-            </div>
-          )}
-          {item.contact && (
-            <p className="item-contact">Contact: {item.contact}</p>
-          )}
-          {item.cost && <p className="item-description">Cost: {item.cost}</p>}
-          {item.language && (
-            <p className="item-description">Language: {item.language}</p>
-          )}
-          {item.weatherInfo && (
-            <p className="item-description">Weather Info: {item.weatherInfo}</p>
-          )}
-          {item.rating && (
-            <p className="item-description">Rating: {item.rating}</p>
-          )}
-          {item.description && (
-            <p className="item-description">{item.description}</p>
-          )}
-          {item.facilities && (
-            <ul className="item-facilities">
-              Facilities:
-              {item.facilities.map((facility, index) => (
-                <li key={index}>{facility}</li>
-              ))}
-            </ul>
-          )}
-          {item.placesToVisit && (
-            <ul className="item-facilities">
-              Places To Visit:
-              {item.placesToVisit.map((place, index) => (
-                <li key={index}>{place}</li>
-              ))}
-            </ul>
-          )}
-          {item.review && (
-            <ul className="item-facilities">
-              Review:
-              {item.review.map((review, index) => (
-                <li key={index}>{review}</li>
-              ))}
-            </ul>
-          )}
-
-          {item.events && (
-            <div className="flex gap-4 ">
-              <div style={{ whiteSpace: "pre-line" }}>
-                <span className="font-bold">Events</span> <br />
-                {item.events.map((event) => event.eventName).join("\n")}
+    <>
+      <Header />
+      <div className="d-main">
+        {filteredData.map((item, index) => (
+          <div key={index} className="d-inner">
+            {item.image && (
+              <div className="d-first">
+                {item.image.map((imageUrl, index) => (
+                  <img key={index} src={imageUrl} alt={`Image ${index}`} />
+                ))}
               </div>
-              <div style={{ whiteSpace: "pre-line" }}>
-                <span className="font-bold">Price</span> <br />
-                {item.events.map((event) => event.price).join("\n")}
-              </div>
-            </div>
-          )}
+            )}
+            <div className="d-second">
+              <p className="text-xl font-bold text-center">{item.name}</p>
+              {item.location && (
+                <p className="item-location">
+                  <b>Location:</b> {item.location}
+                </p>
+              )}
+              {item.contact && (
+                <p className="item-contact">
+                  <b>Contact:</b> {item.contact}
+                </p>
+              )}
+              {item.cost && (
+                <p className="item-description">
+                  <b>Cost:</b> {item.cost}
+                </p>
+              )}
+              {item.language && (
+                <p className="item-description">
+                  <b>Language:</b> {item.language}
+                </p>
+              )}
+              {item.weatherInfo && (
+                <p className="item-description">
+                  <b>Weather Info:</b> {item.weatherInfo}
+                </p>
+              )}
+              {item.rating && (
+                <p className="item-description">
+                  <b>Rating:</b>
+                  {item.rating}
+                </p>
+              )}
+              {item.description && (
+                <p className="item-description">{item.description}</p>
+              )}
+              {item.facilities && (
+                <ul className="item-facilities">
+                  <b> Facilities:</b>
+                  {item.facilities.map((facility, index) => (
+                    <li key={index}>{facility}</li>
+                  ))}
+                </ul>
+              )}
+              {item.placesToVisit && (
+                <ul className="item-facilities">
+                  <b>Places To Visit:</b>
+                  {item.placesToVisit.map((place, index) => (
+                    <li key={index}>{place}</li>
+                  ))}
+                </ul>
+              )}
+              {item.review && (
+                <ul className="item-facilities">
+                  <b>Review: </b>
+                  {item.review.map((review, index) => (
+                    <li key={index}>{review}</li>
+                  ))}
+                </ul>
+              )}
 
-          {item.room && (
-            <ul className="item-facilities">
-              Room:
-              {item.room.map((room, index) => (
-                <li key={index}>{room}</li>
-              ))}
-            </ul>
-          )}
-          {item.rating && <p className="item-rating">Rating: {item.rating}</p>}
-        </div>
-      ))}
-    </div>
+              {item.events && (
+                <div className="flex gap-4 ">
+                  <div style={{ whiteSpace: "pre-line" }}>
+                    <span className="font-bold">Events</span> <br />
+                    {item.events.map((event) => event.eventName).join("\n")}
+                  </div>
+                  <div style={{ whiteSpace: "pre-line" }}>
+                    <span className="font-bold">Price</span> <br />
+                    {item.events.map((event) => event.price).join("\n")}
+                  </div>
+                </div>
+              )}
+
+              {item.room && (
+                <ul className="item-facilities">
+                  <b>Room:</b>
+                  {item.room.map((room, index) => (
+                    <li key={index}>{room}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

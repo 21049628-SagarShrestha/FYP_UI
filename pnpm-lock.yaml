@@ -71,6 +71,9 @@ dependencies:
   slick-carousel:
     specifier: ^1.8.1
     version: 1.8.1(jquery@3.7.1)
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
   yup:
     specifier: ^1.4.0
     version: 1.4.0
@@ -6350,6 +6353,11 @@ packages:
     resolution: {integrity: sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==}
     dependencies:
       inherits: 2.0.3
+
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
+    dev: false
 
   /validatex@0.3.1:
     resolution: {integrity: sha512-ogQNvGi5GZKuIy3SoSwjmTliVS/pK/TVSjCOg/mfWr5w9iKmGHR9Ajw6/8mM6SgwGVsnmwtitZENl1yMn04nsA==}

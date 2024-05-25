@@ -30,11 +30,11 @@ const Login = ({ onClickGoBack }) => {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser, "u");
+  console.log(currentUser, "uu");
   const submitAlbum = async (data) => {
     try {
       dispatch(signInStart());
-      await addUsers(data).unwrap();
+      const response = await addUsers(data).unwrap();
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
@@ -45,7 +45,11 @@ const Login = ({ onClickGoBack }) => {
       toast.success("Login successful!", {
         position: "top-right",
       });
-      navigate("/");
+      if (response.role === "admin") {
+        navigate("/adminHotel");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       toast.error("Invalid Login!", {
         position: "top-right",

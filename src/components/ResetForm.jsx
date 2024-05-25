@@ -30,7 +30,6 @@ const ResetForm = () => {
       };
       const response = await resetPasswords(requestData).unwrap();
 
-      console.log(response, "res");
 
       if (response.message !== null) {
         console.log("Password reset successful");

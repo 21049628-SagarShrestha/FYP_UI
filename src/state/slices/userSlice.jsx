@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { REHYDRATE } from "redux-persist";
 
 const initialState = {
   currentUser: null,
@@ -36,6 +37,14 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state) => {
+      if (!state.currentUser) {
+        state.loading = false;
+        state.error = null;
+      }
+    });
   },
 });
 

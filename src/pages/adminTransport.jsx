@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useGetFlightsAdminQuery } from "@/api/api";
 import Table from "../components/Common/Table";
+import AdminHeader from "../components/Common/AdminHeader";
 
 const adminTransport = () => {
   const {
@@ -62,9 +63,13 @@ const adminTransport = () => {
   ];
 
   return (
-    <div>
-      <Table columns={columns} data={indexedData} />
-    </div>
+    <>
+      <AdminHeader />
+
+      <div>
+        <Table columns={columns} data={indexedData} />
+      </div>
+    </>
   );
 };
 

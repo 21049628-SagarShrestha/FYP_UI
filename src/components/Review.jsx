@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useAddReviewsMutation, useAddReviewsAMutation } from "../api/api";
 const Review = ({ hotelId, onClose, adventureId }) => {
   const {
@@ -15,19 +16,21 @@ const Review = ({ hotelId, onClose, adventureId }) => {
     // Add the hotelId to the review data
 
     if (hotelId) {
-      console.log("hotelo");
       // Add the hotelId to the review data
       data.hotelId = hotelId;
-      console.log(data);
       await addReviews(data).unwrap();
+      toast.success("Thank you for your review", {
+        position: "top-right",
+      });
       onClose();
     } else if (adventureId) {
-      console.log("adv");
       // Add the hotelId to the review data
       data.adventureId = adventureId;
 
-      console.log(data);
       await addReviewsA(data).unwrap();
+      toast.success("Thank you for your review", {
+        position: "top-right",
+      });
       onClose();
     } else {
       return null;

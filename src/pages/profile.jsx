@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { persistor } from "../state/store";
+
 import { useGetUsersQuery } from "../api/api";
 import ChangePassword from "../components/ChangePassword";
 import "@/assets/styles/profile.css";
@@ -30,6 +32,8 @@ const Profile = () => {
         dispatch(signOutUserFailure(data.message));
         return;
       }
+
+      await persistor.purge();
       dispatch(signOutUserSuccess());
     } catch (error) {
       dispatch(signOutUserFailure());
@@ -39,7 +43,7 @@ const Profile = () => {
     <>
       <div className="main-wrapper">
         <div className="wrapper">
-          <h1 className="font-semibold">Login</h1>
+          <h1 className="font-semibold">Profile</h1>
           {reqUser ? (
             <div className="user-container">
               <div>

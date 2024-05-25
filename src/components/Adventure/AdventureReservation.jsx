@@ -18,7 +18,6 @@ const AdventureReservation = ({ events, adventureBookId }) => {
   const selectedEvent = events.find(
     (event) => event.eventName === watch("event")
   );
-  console.log(selectedEvent, "evente");
   useEffect(() => {
     if (selectedEvent) {
       setPrice(selectedEvent.price);

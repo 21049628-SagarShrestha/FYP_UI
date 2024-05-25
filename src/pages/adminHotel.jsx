@@ -5,6 +5,8 @@ import AddHotel from "@/components/Hotel/AddHotel";
 import { deleteFile } from "../utils/firebaseStorage";
 import ViewRoom from "../components/Hotel/ViewRoom";
 import Table from "../components/Common/Table";
+import { toast } from "react-toastify";
+import AdminHeader from "../components/Common/AdminHeader";
 
 const adminHotel = () => {
   const {
@@ -33,6 +35,9 @@ const adminHotel = () => {
       });
       await deleteHotels(id);
       await Promise.all(deletePromises);
+      toast.success("Hotel Deletion successful!", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error(`Error deleting Hotel:`, error);
     }
@@ -118,6 +123,7 @@ const adminHotel = () => {
 
   return (
     <>
+      <AdminHeader />
       {showButton && <AddHotel hotelId={rooms} image={images} />}
       <div className="flex justify-center items-center">
         <button

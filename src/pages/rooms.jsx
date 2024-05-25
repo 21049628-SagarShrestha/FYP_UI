@@ -1,6 +1,7 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useGetRoomsQuery } from "../api/api";
 import Reservation from "@/components/Hotel/Reservation";
+import Header from "../components/Common/Header";
 
 const Rooms = () => {
   const { data: response, isLoading } = useGetRoomsQuery();
@@ -25,6 +26,7 @@ const Rooms = () => {
 
   return (
     <>
+      <Header />
       {isLoading ? (
         <p>Loading...</p>
       ) : (

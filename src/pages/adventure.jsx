@@ -10,6 +10,7 @@ import Review from "../components/Review";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Header from "../components/Common/Header";
 
 const adventure = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -43,6 +44,7 @@ const adventure = () => {
       setReview(true);
     }
   }, [adventureId]);
+
   const handleReview = (adventureId) => {
     let hasReviewForAdventure = false;
 
@@ -55,6 +57,7 @@ const adventure = () => {
 
     if (hasReviewForAdventure) {
       setAdventureId(adventureId);
+      setReview(true);
     } else {
       toast.error("Please book to add review!", {
         position: "top-right",
@@ -68,11 +71,13 @@ const adventure = () => {
   if (error) {
     return <p>Error fetching adventure</p>;
   }
-  function handleCloseBooking() {
+  const handleCloseBooking = () => {
     setReview(false);
-  }
+  };
   return (
     <>
+      <Header />
+
       {review && (
         <Review adventureId={adventureId} onClose={handleCloseBooking} />
       )}

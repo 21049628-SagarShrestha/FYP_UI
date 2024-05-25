@@ -16,27 +16,22 @@ const Success = () => {
   const purpose = searchParams.get("purchase_order_name");
   const [verifySuccesses] = useVerifySuccessesMutation();
   const { reservationStatus } = useSelector((state) => state.reservation);
-  console.log(reservationStatus);
   useEffect(() => {
     const submitAlbum = async () => {
       try {
         dispatch(paymentStart());
         const response = await verifySuccesses({ pidx });
-
         if (response.data.status === "Completed") {
           dispatch(paymentSuccess());
           alert("Thank You! Payment has been received.");
           if (purpose === "hotel") {
-            console.log("aana");
             navigate("/confirmHotel");
           } else if (purpose === "adventure") {
-            console.log("advenrurueureueur");
             navigate("/confirmAdventure");
           } else if (purpose === "flight") {
-            console.log("flightutututtuttut");
             navigate("/confirmTransport");
           } else {
-            console.log("buwa");
+            return null;
           }
         } else {
           dispatch(payementFailure());

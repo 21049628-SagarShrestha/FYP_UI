@@ -2,6 +2,7 @@ import React from "react";
 import { useGetDestinationsQuery } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 import "@/assets/Styles/destination.css";
+import Header from "../components/Common/Header";
 
 const hotels = () => {
   const {
@@ -20,6 +21,8 @@ const hotels = () => {
   }
 
   return (
+    <>
+    <Header />
     <div className="d-main">
       {destinations &&
         destinations.map((i) => {
@@ -67,6 +70,7 @@ const hotels = () => {
           );
         })}
     </div>
+    </>
   );
 };
 

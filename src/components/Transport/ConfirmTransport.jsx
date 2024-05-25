@@ -9,6 +9,7 @@ import {
   reservationSuccess,
 } from "../../state/slices/roomSlice";
 import { paymentReset } from "../../state/slices/paymentSlice";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmTransport = ({
   flightDate,
@@ -22,12 +23,14 @@ const ConfirmTransport = ({
   resetConfirmation,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const { reservationStatus } = useSelector((state) => state.reservation);
   const { paymentStatus } = useSelector((state) => state.payment);
 
   useEffect(() => {
     const formData = {
+      user: currentUser.email,
       flightDate,
       airline,
       arrival_airport,
@@ -40,6 +43,7 @@ const ConfirmTransport = ({
         phone: passenger.phone,
       })),
     };
+
     dispatch(reservationStart());
     dispatch(reservationSuccess(formData));
   }, []);
@@ -64,14 +68,12 @@ const ConfirmTransport = ({
 
   const handleConfirmBooking = async () => {
     try {
-      console.log("booked");
       await addFlightReservations(reservationStatus);
-      setShowPopup(false);
-      resetConfirmation();
+      // resetConfirmation();
       dispatch(paymentReset());
       dispatch(reservationReset());
       setTimeout(function () {
-        navigate("/transport"); // Navigate to hotel page after 3 seconds
+        navigate("/transport"); // Navigate to transport page after 3 seconds
       }, 3000);
     } catch (error) {
       console.error("Error adding Flight Reservation:", error);
@@ -93,7 +95,7 @@ const ConfirmTransport = ({
               <p>Departure Airport: {departure_airport}</p>
               <p>Arrival Airport: {arrival_airport}</p>
               <p>Departure Time: {departure_time}</p>
-              <p>Flight Dureation: {flight_time}</p>
+              <p>Flight Duration: {flight_time}</p>
               <p>Price: {price}</p>
               <button
                 onClick={handleKhaltiClick}
@@ -110,7 +112,7 @@ const ConfirmTransport = ({
           </div>
         </div>
       )}
-      {khaltiVisible && <Khalti purpose={"flight"} />}
+      {khaltiVisible && <Khalti amounto={price} purpose={"flight"} />}
     </div>
   );
 };

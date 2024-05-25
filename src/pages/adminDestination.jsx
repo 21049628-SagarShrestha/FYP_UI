@@ -7,6 +7,8 @@ import {
 import AddDestination from "@/components/AddDestination";
 import { deleteFile } from "../utils/firebaseStorage";
 import Table from "../components/Common/Table";
+import { toast } from "react-toastify";
+import AdminHeader from "../components/Common/AdminHeader";
 
 const adminDestination = () => {
   const {
@@ -34,6 +36,9 @@ const adminDestination = () => {
       });
       await Promise.all(deletePromises);
       await deleteDestinations(id);
+      toast.success("Delete destination successful!", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error(`Error deleting Destination:`, error);
     }
@@ -99,23 +104,26 @@ const adminDestination = () => {
     },
   ];
   return (
-    <div>
-      <h1 className="text-bold">Destinations</h1>
-      {showButton && (
-        <AddDestination destinationId={destination} image={images} />
-      )}
-      <div className="flex justify-center items-center">
-        <button
-          className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
-          onClick={() => setShowButton(true)}
-        >
-          Add More Destination
-        </button>
+    <>
+      <AdminHeader />
+      <div>
+        <h1 className="text-bold">Destinations</h1>
+        {showButton && (
+          <AddDestination destinationId={destination} image={images} />
+        )}
+        <div className="flex justify-center items-center">
+          <button
+            className=" bg-slate-500 text-white border-2 border-gray-500 hover:bg-white hover:text-black hover:border-black font-bold py-1 px-2 rounded-xl"
+            onClick={() => setShowButton(true)}
+          >
+            Add More Destination
+          </button>
+        </div>
+        <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-8xl mx-auto my-10 ">
+          <Table columns={columns} data={data} />
+        </div>
       </div>
-      <div className="m-auto border border-black bg-white gap-2rem rounded-lg p-3 max-w-8xl mx-auto my-10 ">
-        <Table columns={columns} data={data} />
-      </div>
-    </div>
+    </>
   );
 };
 export default adminDestination;

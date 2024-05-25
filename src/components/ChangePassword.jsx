@@ -4,6 +4,7 @@ import "@/assets/styles/ChangePassword.css";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useChangePasswordsMutation } from "../api/api";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ChangePassword = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -30,7 +31,13 @@ const ChangePassword = () => {
       };
       await changePasswords(requestData).unwrap();
       reset();
+      toast.success("Password Changed!", {
+        position: "top-right",
+      });
     } catch (error) {
+      toast.error("Error!", {
+        position: "top-right",
+      });
       console.log(error);
     }
   };
